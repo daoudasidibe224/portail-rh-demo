@@ -1,4 +1,4 @@
-import type { EmployeeSeed } from './types'
+import type { EmployeeSeed } from './build'
 
 export const EMPLOYEE_SEEDS: EmployeeSeed[] = [
   {

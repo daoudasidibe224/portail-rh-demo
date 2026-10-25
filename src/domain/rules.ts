@@ -126,6 +126,9 @@ export const COST_CENTERS: { value: string; label: string; disabled?: boolean }[
   { value: 'CC-9999', label: 'CC-9999 (ne pas utiliser)', disabled: true },
 ]
 
+// Durée proposée par défaut pour un jour choisi.
+export const DEFAULT_PERIOD: DayPeriod = 'day'
+
 export const PERIODS: Record<DayPeriod, { label: string; short: string; weight: number }> = {
   day: { label: 'Journée', short: 'journée', weight: 1 },
   am: { label: 'Matin', short: 'matin', weight: 0.5 },

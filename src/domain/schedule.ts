@@ -1,5 +1,5 @@
 import { addDays, isoWeekday, type ISODate } from './dates'
-import { isBusinessDay } from './businessDays'
+import { isBusinessDay } from './workdays'
 import { ACTIVE_STATUSES, PERIODS, RULES } from './rules'
 import type { DayPeriod, RequestedDay, TeleworkRequest, WeeklySlot } from './types'
 

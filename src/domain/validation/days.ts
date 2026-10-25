@@ -1,6 +1,5 @@
 import { isISODate, isWeekend, type ISODate } from '../dates'
-import { holidayName } from '../holidays'
-import { isBusinessDay } from '../businessDays'
+import { holidayName, isBusinessDay } from '../workdays'
 import { formatLong } from '../dateFormat'
 import { formatDays } from '../format'
 import { countDays } from '../schedule'

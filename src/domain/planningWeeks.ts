@@ -1,5 +1,5 @@
 import { addDays, isISODate, isoWeekNumber, startOfWeek, type ISODate } from './dates'
-import { holidayName } from './holidays'
+import { holidayName } from './workdays'
 import { entryFor, hasRhythm } from './schedule'
 import type { DayPeriod, RequestDraft, TeleworkRequest } from './types'
 

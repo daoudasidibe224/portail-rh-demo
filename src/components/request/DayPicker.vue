@@ -18,10 +18,10 @@ import {
 import { computed } from 'vue'
 
 import { isWeekend, type ISODate } from '@/domain/dates'
-import { holidayName } from '@/domain/holidays'
+import { holidayName } from '@/domain/workdays'
 import type { RequestedDay } from '@/domain/types'
 
-import { DEFAULT_PERIOD } from './defaults'
+import { DEFAULT_PERIOD } from '@/domain/rules'
 import SelectedDays from './SelectedDays.vue'
 
 defineProps<{

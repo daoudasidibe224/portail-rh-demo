@@ -6,14 +6,14 @@ import PeriodChoice from '@/components/request/PeriodChoice.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue'
 import { useToast } from '@/composables/useToast'
-import { nextBusinessDay } from '@/domain/businessDays'
+import { nextBusinessDay } from '@/domain/workdays'
 import { formatLong } from '@/domain/dateFormat'
 import { formatDays } from '@/domain/format'
 import { PERIODS } from '@/domain/rules'
 import { emptyDraft, fullName, type DayPeriod } from '@/domain/types'
 import { usePortalStore } from '@/stores/portal'
 
-import { DEFAULT_PERIOD } from './defaults'
+import { DEFAULT_PERIOD } from '@/domain/rules'
 
 const portal = usePortalStore()
 const router = useRouter()

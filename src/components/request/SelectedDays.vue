@@ -8,7 +8,7 @@ import { formatDays } from '@/domain/format'
 import { countDays } from '@/domain/schedule'
 import type { DayPeriod, RequestedDay } from '@/domain/types'
 
-import { DEFAULT_PERIOD } from './defaults'
+import { DEFAULT_PERIOD } from '@/domain/rules'
 import PeriodChoice from './PeriodChoice.vue'
 
 // Jours choisis dans le calendrier, avec la durée de chacun (journée, matin, après-midi).

@@ -4,7 +4,6 @@ import { computed, ref, watch } from 'vue'
 import { todayISO, yearOf } from '@/domain/dates'
 import { employeeFromDraft, historyEvent, requestFromDraft } from '@/domain/requestFactory'
 import { RULES } from '@/domain/rules'
-import { sortRequests } from '@/domain/requestFilters'
 import { occasionalBalance } from '@/domain/schedule'
 import { createSeed, isPortalState, type PortalState } from '@/domain/seed'
 import type { Employee, HistoryEvent, RequestDraft, TeleworkRequest } from '@/domain/types'
@@ -18,6 +17,14 @@ export class ValidationFailedError extends Error {
   constructor(public readonly errors: ValidationError[]) {
     super('La demande contient des erreurs.')
   }
+}
+
+const bySent = (a: TeleworkRequest, b: TeleworkRequest) => a.createdAt.localeCompare(b.createdAt)
+
+/** Trie une copie par date d'envoi : les plus récentes d'abord, ou les plus anciennes. */
+function sortRequests(requests: readonly TeleworkRequest[], order: 'recent' | 'oldest') {
+  const copy = [...requests]
+  return order === 'recent' ? copy.sort((a, b) => bySent(b, a)) : copy.sort(bySent)
 }
 
 // Collaborateurs et demandes, sauvegardés dans le navigateur à chaque modification.

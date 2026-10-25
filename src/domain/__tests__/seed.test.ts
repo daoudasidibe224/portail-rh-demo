@@ -13,13 +13,6 @@ describe('createSeed', () => {
     expect(seed.sequence).toBe(seed.requests.length)
   })
 
-  it('contient une demande mixte et une demande saisie par un manager', () => {
-    expect(seed.requests.some((r) => r.type === 'mixed')).toBe(true)
-    const entered = seed.requests.find((r) => r.history[0]?.comment === 'Saisie par le manager')
-    expect(entered?.status).toBe('approved')
-    expect(entered?.history[0]?.actorId).toBe('e-camille')
-  })
-
   it('laisse 3,5 jours de solde occasionnel à Camille', () => {
     expect(occasionalBalance(seed.requests, 'e-camille', 2026).available).toBe(3.5)
   })

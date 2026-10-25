@@ -1,11 +1,28 @@
 import type { ISODate } from '../dates'
-import { buildEmployee, buildRequest } from './builders'
-import { createCalendar } from './calendar'
+import type { Employee, TeleworkRequest } from '../types'
+import { buildEmployee, buildRequest, createCalendar } from './build'
 import { EMPLOYEE_SEEDS } from './employees'
 import { requestSeeds } from './requests'
-import type { PortalState } from './state'
 
-export { isPortalState, type PortalState } from './state'
+export interface PortalState {
+  version: 1
+  currentUserId: string
+  employees: Employee[]
+  requests: TeleworkRequest[]
+  sequence: number
+}
+
+export function isPortalState(value: unknown): value is PortalState {
+  if (!value || typeof value !== 'object') return false
+  const candidate = value as Partial<PortalState>
+  return (
+    candidate.version === 1 &&
+    typeof candidate.currentUserId === 'string' &&
+    Array.isArray(candidate.employees) &&
+    Array.isArray(candidate.requests) &&
+    typeof candidate.sequence === 'number'
+  )
+}
 
 /**
  * Données de démonstration, calculées par rapport à la date du jour pour que la démo
