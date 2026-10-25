@@ -30,16 +30,6 @@ export function addDays(iso: ISODate, days: number): ISODate {
   return toISO(new Date(parseISO(iso).getTime() + days * DAY_MS))
 }
 
-export function addMonths(iso: ISODate, months: number): ISODate {
-  const date = parseISO(iso)
-  const day = date.getUTCDate()
-  date.setUTCDate(1)
-  date.setUTCMonth(date.getUTCMonth() + months)
-  const lastDay = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 0)).getUTCDate()
-  date.setUTCDate(Math.min(day, lastDay))
-  return toISO(date)
-}
-
 function diffDays(from: ISODate, to: ISODate): number {
   return Math.round((parseISO(to).getTime() - parseISO(from).getTime()) / DAY_MS)
 }

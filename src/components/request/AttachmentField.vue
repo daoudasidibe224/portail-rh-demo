@@ -40,8 +40,8 @@ async function removeFile() {
       Justificatif <span class="font-normal text-ink-600">(facultatif)</span>
     </span>
     <p id="attachment-hint" class="mt-0.5 text-sm text-ink-600">
-      {{ ATTACHMENT_LABEL }}, {{ formatBytes(RULES.attachmentMaxBytes) }} maximum. Exemple : préavis
-      de grève, convocation ou attestation de travaux.
+      {{ ATTACHMENT_LABEL }} uniquement, {{ formatBytes(RULES.attachmentMaxBytes) }} maximum.
+      Exemple : préavis de grève, convocation ou attestation de travaux.
     </p>
     <div
       v-if="drafts.draft.attachment"

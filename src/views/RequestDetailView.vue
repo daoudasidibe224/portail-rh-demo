@@ -4,11 +4,12 @@ import { RouterLink } from 'vue-router'
 
 import RequestActionsBar from '@/components/detail/RequestActionsBar.vue'
 import RequestDetails from '@/components/detail/RequestDetails.vue'
-import RequestHistory from '@/components/detail/RequestHistory.vue'
 import SentBanner from '@/components/detail/SentBanner.vue'
 import StatusBadge from '@/components/ui/StatusBadge.vue'
 import { useRequestDetail } from '@/composables/useRequestDetail'
+import { formatFull } from '@/domain/dateFormat'
 import { describeType } from '@/domain/format'
+import { RULES } from '@/domain/rules'
 import { fullName } from '@/domain/types'
 
 import NotFoundView from './NotFoundView.vue'
@@ -24,7 +25,6 @@ const {
   responseDeadline,
   managerName,
   approve,
-  cancel,
   reject,
 } = useRequestDetail(() => props.id)
 </script>
@@ -34,7 +34,7 @@ const {
   <article v-else class="max-w-3xl pb-8">
     <RouterLink
       :to="isMine ? '/teletravail' : '/equipe'"
-      class="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-ink-700 hover:text-ink-900 print:hidden"
+      class="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-ink-700 hover:text-ink-900"
     >
       <ArrowLeft class="size-4" aria-hidden="true" />
       {{ isMine ? 'Mon télétravail' : 'Mon équipe' }}
@@ -61,17 +61,14 @@ const {
     </header>
 
     <RequestDetails :request="request" />
-    <RequestHistory
-      :request="request"
-      :is-mine="isMine"
-      :manager-name="managerName"
-      :response-deadline="responseDeadline"
-    />
+    <p v-if="request.status === 'pending'" class="mt-4 text-ink-700">
+      Réponse attendue sous {{ RULES.responseBusinessDays }} jours ouvrés, soit avant le
+      {{ formatFull(responseDeadline) }}.
+    </p>
     <RequestActionsBar
+      v-if="!isMine && request.status === 'pending'"
       :request="request"
-      :is-mine="isMine"
       @approve="approve"
-      @cancel="cancel"
       @reject="reject"
     />
   </article>

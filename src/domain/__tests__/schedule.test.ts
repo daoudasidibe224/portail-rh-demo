@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { describeQuantity, describeSchedule, formatHours } from '../format'
 import { RULES } from '../rules'
-import { entryFor, isOngoing, occasionalBalance, unavailableDates } from '../schedule'
+import { entryFor, occasionalBalance } from '../schedule'
 import type { TeleworkRequest } from '../types'
 
 function request(overrides: Partial<TeleworkRequest>): TeleworkRequest {
@@ -90,39 +90,6 @@ describe('entryFor', () => {
 
   it('ignore les demandes refusées', () => {
     expect(entryFor([{ ...regular, status: 'rejected' }], 'e-1', '2026-03-09')).toBeNull()
-  })
-})
-
-describe('unavailableDates', () => {
-  it('inclut les jours d’un rythme mixte et ses jours ponctuels', () => {
-    const mixed = request({
-      type: 'mixed',
-      weeklySlots: [{ weekday: 3, period: 'day' }],
-      startDate: '2026-03-02',
-      days: [{ date: '2026-03-12', period: 'day' }],
-    })
-    const dates = unavailableDates([mixed], 'e-1', '2026-03-02', 30)
-    expect(dates.has('2026-03-04')).toBe(true)
-    expect(dates.has('2026-03-12')).toBe(true)
-    expect(dates.has('2026-03-05')).toBe(false)
-  })
-})
-
-describe('isOngoing', () => {
-  it('garde actif un rythme sans date de fin, mixte compris', () => {
-    const mixed = request({
-      type: 'mixed',
-      weeklySlots: [{ weekday: 3, period: 'day' }],
-      startDate: '2026-01-05',
-      days: [{ date: '2026-01-14', period: 'day' }],
-    })
-    expect(isOngoing(mixed, '2026-06-01')).toBe(true)
-  })
-
-  it('termine une demande ponctuelle passée', () => {
-    expect(
-      isOngoing(request({ days: [{ date: '2026-01-14', period: 'day' }] }), '2026-06-01'),
-    ).toBe(false)
   })
 })
 

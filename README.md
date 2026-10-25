@@ -20,13 +20,13 @@ Autres commandes : `npm test` (règles métier, avec Vitest), `npm run build`, `
 ## Ce que contient l'application
 
 - **Accueil** : statut du jour, demande rapide pour le prochain jour ouvré, dernières actualités, services RH.
-- **Mon télétravail** : semaine en cours, solde, liste des demandes (filtres, tri, période).
-- **Nouvelle demande** : trois étapes courtes. 1. Type et dates (calendrier ou rythme hebdomadaire). 2. Précisions (motif, centre de coût, message, justificatif). 3. Vérification et envoi (récapitulatif, planning prévisionnel par semaine, engagements : charte, connexion stable, recontact RH, lettre RH). Chaque étape est validée en la quittant, on peut revenir en arrière sans rien perdre. Une confirmation récapitule la demande avant l'envoi, et chaque section a une aide (bouton « ? »). Le centre de coût et le choix de recontact reprennent ceux de la dernière demande. Le récapitulatif montre la durée (en jours et en heures) et le solde restant avant l'envoi, et s'imprime. Le brouillon est enregistré au fil de la saisie.
-- **Détail d'une demande** : suivi, délai de réponse annoncé, annulation, impression.
-- **Mon équipe** (manager) : demandes à valider avec tri, filtres et validation en lot, planning de présence avec export CSV. Le bouton « Ajouter un télétravail pour un membre » ouvre le même formulaire, avec un choix « Pour qui ? » : soi, ou un membre de l'équipe (la liste propose aussi une personne saisie à la main : matricule, prénom, nom, qui rejoint alors l'équipe). La demande d'un manager est validée à l'envoi.
+- **Mon télétravail** : solde, prochain jour à distance, liste des demandes.
+- **Nouvelle demande** : trois étapes courtes. 1. Type et dates (calendrier ou rythme hebdomadaire). 2. Précisions (motif, centre de coût, message, justificatif). 3. Vérification et envoi (récapitulatif, planning prévisionnel par semaine, engagements : charte, connexion stable, recontact RH, lettre RH). Chaque étape est validée en la quittant, on peut revenir en arrière sans rien perdre. Une confirmation récapitule la demande avant l'envoi. Le récapitulatif montre la durée (en jours et en heures) et le solde restant. Le brouillon est enregistré au fil de la saisie.
+- **Détail d'une demande** : récapitulatif, délai de réponse annoncé, et Valider ou Refuser pour le manager.
+- **Mon équipe** (manager) : liste des demandes à valider (Valider, Refuser avec un motif). Le bouton « Ajouter un télétravail pour un membre » ouvre le formulaire avec un choix « Pour qui ? » : soi, ou un membre de l'équipe (la liste propose aussi une personne saisie à la main : matricule, prénom, nom, qui rejoint alors l'équipe). La demande d'un manager est validée à l'envoi.
 - **Actualités, annuaire, charte du télétravail, contact, plan du site, mentions légales, déclaration d'accessibilité.**
 - **Bandeau d'information** sous l'en-tête (délai de 14 jours du télétravail régulier), refermable et mémorisé dans le navigateur. La version de l'application est affichée en pied de page.
-- **Services RH** (bulletins, congés, mutuelle…) : pages de démonstration avec des données fictives.
+- **Services RH** (bulletins, congés, mutuelle…) : pages de démonstration, sans contenu réel.
 
 ## Vision et choix d'ergonomie
 
@@ -40,7 +40,7 @@ L'ancien formulaire TT-07b demande sept étapes, une vingtaine de champs et des 
 | Codes 41, 42, 43, « TTX ne pas utiliser », motifs en double                                                          | Trois types avec leur règle écrite sous le nom. Le code RH reste visible sur la demande.                                                         |
 | Erreur unique « ERR_TT_042 », sans champ désigné                                                                     | Message sous chaque champ, résumé en haut avec un lien vers chaque erreur.                                                                       |
 | Boutons de confirmation inversés, « Effacer tout » sans confirmation, session de cinq minutes qui efface la saisie   | Confirmations claires, brouillon enregistré à chaque modification, rien ne s'efface seul.                                                        |
-| Cases en double négation, lettre RH obligatoire, commentaire de 200 caractères minimum pour 50 autorisés             | Cases formulées simplement, parmi les cases, seules l'attestation de connexion et la charte sont obligatoires, limites cohérentes.               |
+| Cases en double négation, lettre RH obligatoire, commentaire de 200 caractères minimum pour 50 autorisés             | Cases formulées simplement, parmi les cases, seules l'attestation de connexion et la charte sont obligatoires, aucune limite contradictoire.     |
 | Largeur fixe de 1 000 px, texte gris clair, cases de 9 px                                                            | Page adaptée au téléphone, contrastes et cibles tactiles d'au moins 40 px, navigation au clavier, liens d'évitement.                             |
 
 L'accessibilité est traitée comme une contrainte de départ : libellés liés aux champs, erreurs annoncées, focus géré à l'ouverture et à la fermeture des dialogues, déclaration d'accessibilité dans le pied de page.
@@ -74,7 +74,7 @@ src/
 
 Les dépendances vont dans un seul sens : `views` et `components` utilisent `stores` et `composables`, qui s'appuient sur `domain` et `services`. Le domaine n'importe rien de Vue ni du navigateur. Les fichiers inutilisés, les exports orphelins et les dépendances en trop sont contrôlés avec `npx knip`.
 
-Les règles RH (8 jours occasionnels par an, 14 jours de prévenance pour le régulier, 2 jours par semaine au plus, journée de 7 h 24, réponse sous 15 jours ouvrés, charte v5) sont regroupées dans `src/domain/rules.ts`. Elles viennent de l'ancien portail et restent à confirmer avec les RH.
+Les règles viennent de l'ancien formulaire (délai de 14 jours pour le régulier, 8 jours occasionnels par an, journée de 7 h 24, réponse sous 15 jours ouvrés, justificatif PDF de 200 Ko, charte v5) et sont regroupées dans `src/domain/rules.ts`. Elles viennent de l'ancien portail et restent à confirmer avec les RH.
 
 ## Correspondance avec l'ancien formulaire TT-07b
 
@@ -97,6 +97,7 @@ Remplacé : le matricule, le nom, le prénom et le code manager sont connus du p
 - Pas de serveur : pas d'authentification, pas d'e-mail, le justificatif n'est pas envoyé (seuls son nom et sa taille sont gardés). Un back-end porterait l'authentification, les notifications et le stockage des pièces.
 - Les services RH autres que le télétravail sont des démonstrations.
 - Les règles viennent de l'ancien portail et restent à confirmer avec les RH : journée de 7 h 24, réponse sous 15 jours ouvrés, 8 jours occasionnels par an.
+- Le périmètre est volontairement réduit : pas d'annulation, de filtres, d'export ni de planning d'équipe.
 - Le texte de la charte v4 n'est pas repris : seule la v5 est en vigueur.
 - Les tests couvrent les règles métier (validation, solde, planning, données de démonstration), pas l'interface. Des tests de bout en bout, avec axe-core, seraient la suite logique.
 - Aucun test avec un lecteur d'écran n'a été fait.

@@ -22,8 +22,8 @@ function onBehalfFromQuery(
 }
 
 /**
- * Préremplit le formulaire : centre de coût de la personne concernée, raccourci
- * (?type=&date=&pour=), duplication (?depuis=id), puis choix de la dernière demande.
+ * Préremplit le formulaire : centre de coût de la personne concernée et raccourcis
+ * (?type=&date=&pour=).
  */
 export function useRequestPrefill() {
   const portal = usePortalStore()
@@ -46,30 +46,9 @@ export function useRequestPrefill() {
     },
   )
 
-  /* Reprend le centre de coût et le choix de recontact de la dernière demande,
-     sur une saisie encore vide. La connexion et la charte restent à confirmer. */
-  function prefillFromLastRequest() {
-    const last = portal.myRequests[0]
-    if (!last || drafts.dirty) return
-    if (last.costCenter && last.costCenter !== portal.currentUser.costCenter) {
-      drafts.draft.costCenter = last.costCenter
-    }
-    drafts.draft.recontactAllowed ||= last.recontactAllowed ?? false
-  }
-
   onMounted(() => {
-    const { depuis, type, date, pour } = route.query
-    const source = typeof depuis === 'string' ? portal.requestById(depuis) : undefined
-    if (source) {
-      drafts.reset({
-        type: source.type,
-        weeklySlots: source.weeklySlots.map((s) => ({ ...s })),
-        reason: source.reason,
-        costCenter: source.costCenter ?? '',
-        recontactAllowed: source.recontactAllowed ?? false,
-        comment: source.comment,
-      })
-    } else if (typeof type === 'string' && SUBMITTABLE_TYPES.includes(type as RequestType)) {
+    const { type, date, pour } = route.query
+    if (typeof type === 'string' && SUBMITTABLE_TYPES.includes(type as RequestType)) {
       drafts.reset({
         type: type as RequestType,
         days: typeof date === 'string' && isISODate(date) ? [{ date, period: 'day' }] : [],
@@ -77,6 +56,5 @@ export function useRequestPrefill() {
     }
     const onBehalf = onBehalfFromQuery(pour, portal.teamMembers)
     if (onBehalf) drafts.draft.onBehalf = onBehalf
-    prefillFromLastRequest()
   })
 }

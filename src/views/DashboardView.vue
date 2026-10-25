@@ -1,31 +1,18 @@
 <script setup lang="ts">
 import { BookOpen } from 'lucide-vue-next'
-import { nextTick, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
 import BalanceSummary from '@/components/dashboard/BalanceSummary.vue'
-import RequestFilters from '@/components/dashboard/RequestFilters.vue'
-import RequestListHeader from '@/components/dashboard/RequestListHeader.vue'
-import RequestListResults from '@/components/dashboard/RequestListResults.vue'
-import WeekPlanner from '@/components/dashboard/WeekPlanner.vue'
 import QuickRequestActions from '@/components/request/QuickRequestActions.vue'
+import RequestTable from '@/components/request/RequestTable.vue'
+import EmptyState from '@/components/ui/EmptyState.vue'
 import PageTitle from '@/components/ui/PageTitle.vue'
 import { usePageHeading } from '@/composables/usePageHeading'
-import { useRequestList } from '@/composables/useRequestList'
 import { formatLong } from '@/domain/dateFormat'
 import { usePortalStore } from '@/stores/portal'
 
 const portal = usePortalStore()
 const heading = usePageHeading()
-const list = useRequestList()
-
-const listHeader = ref<InstanceType<typeof RequestListHeader> | null>(null)
-async function resetFilters() {
-  list.reset()
-  // Le bouton disparaît : le focus passe au premier filtre.
-  await nextTick()
-  listHeader.value?.focusStatus()
-}
 </script>
 
 <template>
@@ -47,41 +34,20 @@ async function resetFilters() {
       <QuickRequestActions />
     </div>
 
-    <div class="card">
-      <WeekPlanner
-        :requests="portal.requests"
-        :employee-id="portal.currentUser.id"
-        :today="portal.today"
-      />
-    </div>
-
     <BalanceSummary />
 
     <section aria-labelledby="requests-title">
-      <RequestListHeader
-        ref="listHeader"
-        v-model:filter="list.filter.value"
-        v-model:status="list.status.value"
-        :current-count="list.currentRequests.value.length"
-        :total-count="portal.myRequests.length"
-        :status-counts="list.statusCounts.value"
-      />
+      <h2 id="requests-title" class="mb-3 text-xl font-semibold text-ink-900">Mes demandes</h2>
       <div class="card overflow-hidden">
-        <RequestFilters
-          v-if="list.showFilters.value"
-          v-model:sort="list.sort.value"
-          v-model:from="list.from.value"
-          v-model:to="list.to.value"
-          :period-inverted="list.periodInverted.value"
-          :can-reset="list.canReset.value"
-          @reset="resetFilters"
+        <RequestTable
+          v-if="portal.myRequests.length"
+          :requests="portal.myRequests"
+          caption="Mes demandes"
         />
-        <RequestListResults
-          :filter="list.filter.value"
-          :results-label="list.resultsLabel.value"
-          :total-count="portal.myRequests.length"
-          :pager="list.pager"
-        />
+        <EmptyState v-else title="Aucune demande.">
+          Besoin de télétravailler ?
+          <RouterLink to="/demandes/nouvelle" class="link-action">Faire une demande</RouterLink>
+        </EmptyState>
       </div>
     </section>
   </div>

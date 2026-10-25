@@ -58,7 +58,7 @@ const ARTICLES: NewsArticle[] = [
     category: 'teletravail',
     body: [
       `Pour un télétravail régulier, la demande doit être faite au moins ${RULES.regularNoticeDays} jours avant le premier jour concerné.`,
-      `Vous pouvez choisir jusqu’à ${RULES.regularMaxDaysPerWeek} jours par semaine. Le portail vérifie le délai avant l’envoi.`,
+      'Le portail vérifie ce délai avant l’envoi de la demande.',
       'Pour un besoin ponctuel, préférez une demande occasionnelle.',
     ],
     link: { label: 'Demander un télétravail régulier', to: '/demandes/nouvelle?type=regular' },

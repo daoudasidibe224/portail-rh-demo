@@ -1,21 +1,15 @@
-import { addDays, addMonths, isISODate } from '../dates'
+import { addDays, isISODate } from '../dates'
 import { formatFull } from '../dateFormat'
-import { formatDays } from '../format'
 import { RULES } from '../rules'
 import { countWeeklyDays } from '../schedule'
 import type { RequestDraft } from '../types'
 import type { Add, ValidationContext } from './types'
 
-/** Rythme hebdomadaire : jours par semaine, délai de prévenance et durée maximale. */
+/** Rythme hebdomadaire : au moins un jour, délai de prévenance, fin après le début. */
 export function validateRegular(draft: RequestDraft, ctx: ValidationContext, add: Add) {
   const perWeek = countWeeklyDays(draft.weeklySlots)
   if (perWeek === 0) {
     add('weeklySlots', 'Choisissez au moins un jour de télétravail dans la semaine.')
-  } else if (perWeek > RULES.regularMaxDaysPerWeek) {
-    add(
-      'weeklySlots',
-      `Le télétravail régulier est limité à ${formatDays(RULES.regularMaxDaysPerWeek)} par semaine : vous en avez choisi ${formatDays(perWeek)}.`,
-    )
   }
 
   const earliest = addDays(ctx.today, RULES.regularNoticeDays)
@@ -31,16 +25,10 @@ export function validateRegular(draft: RequestDraft, ctx: ValidationContext, add
   }
 
   if (draft.endDate && draft.startDate && isISODate(draft.startDate)) {
-    const latest = addMonths(draft.startDate, RULES.regularMaxDurationMonths)
     if (!isISODate(draft.endDate)) {
       add('endDate', 'La date de fin n’est pas valide : corrigez-la.')
     } else if (draft.endDate <= draft.startDate) {
       add('endDate', 'La date de fin doit être après la date de début.')
-    } else if (draft.endDate > latest) {
-      add(
-        'endDate',
-        `Une demande régulière dure ${RULES.regularMaxDurationMonths} mois maximum : choisissez le ${formatFull(latest)} ou avant.`,
-      )
     }
   }
 }

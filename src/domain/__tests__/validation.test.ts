@@ -7,7 +7,6 @@ import { validateDraft, type FieldKey, type ValidationContext } from '../validat
 const ctx: ValidationContext = {
   today: '2026-03-02',
   availableBalance: 8,
-  bookedDates: new Set(),
   charterAlreadyAccepted: true,
   knownMatricules: new Set(['00418273']),
 }
@@ -40,11 +39,6 @@ describe('validateDraft', () => {
     expect(fields(draft({ days: [{ date: '2026-02-27', period: 'day' }] }))).toContain('days')
   })
 
-  it('refuse un jour déjà demandé', () => {
-    const booked = { ...ctx, bookedDates: new Set(['2026-03-04']) }
-    expect(fields(draft({}), booked)).toContain('days')
-  })
-
   it('refuse un dépassement du solde occasionnel', () => {
     expect(fields(draft({}), { ...ctx, availableBalance: 0.5 })).toContain('days')
   })
@@ -57,6 +51,15 @@ describe('validateDraft', () => {
     expect(fields(draft({ reason: '' }))).toContain('reason')
     expect(fields(draft({ reason: 'other' }))).toContain('comment')
     expect(fields(draft({ reason: 'unspecified' }))).toEqual([])
+  })
+
+  it('n’accepte qu’un PDF de 200 Ko au plus', () => {
+    const file = (type: string, size: number) => ({ name: 'justificatif', type, size })
+    expect(fields(draft({ attachment: file('application/pdf', 100 * 1024) }))).toEqual([])
+    expect(fields(draft({ attachment: file('image/png', 1024) }))).toContain('attachment')
+    expect(fields(draft({ attachment: file('application/pdf', 300 * 1024) }))).toContain(
+      'attachment',
+    )
   })
 
   it('exige l’attestation de connexion', () => {
@@ -89,20 +92,11 @@ describe('télétravail régulier', () => {
     expect(fields(regular())).toEqual([])
   })
 
-  it('limite à 2 jours par semaine', () => {
-    const slots = [1, 2, 3].map((weekday) => ({
-      weekday: weekday as 1 | 2 | 3,
-      period: 'day' as const,
-    }))
-    expect(fields(regular({ weeklySlots: slots }))).toContain('weeklySlots')
-  })
-
   it('respecte le délai de prévenance de 14 jours', () => {
     expect(fields(regular({ startDate: '2026-03-10' }))).toContain('startDate')
   })
 
-  it('limite la durée à 12 mois et refuse une fin avant le début', () => {
-    expect(fields(regular({ endDate: '2027-04-30' }))).toContain('endDate')
+  it('refuse une fin avant le début', () => {
     expect(fields(regular({ endDate: '2026-03-20' }))).toContain('endDate')
   })
 })
@@ -117,12 +111,8 @@ describe('télétravail mixte', () => {
       ...overrides,
     })
 
-  it('accepte un rythme et des jours, avec une explication', () => {
+  it('accepte un rythme et des jours', () => {
     expect(fields(mixed())).toEqual([])
-  })
-
-  it('exige l’explication de la dérogation', () => {
-    expect(fields(mixed({ comment: '' }))).toContain('comment')
   })
 
   it('exige à la fois le rythme et les jours', () => {

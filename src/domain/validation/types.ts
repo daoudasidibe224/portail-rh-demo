@@ -22,8 +22,6 @@ export interface ValidationContext {
   today: ISODate
   // Jours occasionnels encore disponibles, hors demande en cours.
   availableBalance: number
-  // Dates déjà couvertes par une autre demande active.
-  bookedDates: ReadonlySet<ISODate>
   charterAlreadyAccepted: boolean
   // Matricules déjà présents dans le portail, pour refuser un doublon.
   knownMatricules: ReadonlySet<string>

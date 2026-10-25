@@ -11,7 +11,6 @@ import {
 import { ref, useId, watch } from 'vue'
 
 import FieldError from '@/components/request/FieldError.vue'
-import { RULES } from '@/domain/rules'
 
 import AppButton from './AppButton.vue'
 
@@ -82,7 +81,6 @@ function confirm() {
             ref="commentField"
             v-model="comment"
             rows="3"
-            :maxlength="RULES.commentMaxLength"
             class="field-input mt-1.5"
             :aria-invalid="error ? 'true' : undefined"
             :aria-describedby="error ? `${id}-error` : undefined"

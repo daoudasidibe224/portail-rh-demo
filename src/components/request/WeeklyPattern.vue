@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { formatDays } from '@/domain/format'
-import { RULES, WEEKDAYS } from '@/domain/rules'
+import { WEEKDAYS } from '@/domain/rules'
 import { countWeeklyDays } from '@/domain/schedule'
 import type { DayPeriod, Weekday, WeeklySlot } from '@/domain/types'
 
@@ -26,9 +26,7 @@ function setPeriod(weekday: Weekday, period: DayPeriod | null) {
   <fieldset :id="id" :aria-describedby="describedBy" class="min-w-0">
     <legend class="mb-2 text-sm font-semibold text-ink-900">
       Jours de télétravail chaque semaine
-      <span class="font-normal text-ink-600">
-        ({{ formatDays(countWeeklyDays(slots)) }} sur {{ RULES.regularMaxDaysPerWeek }} maximum)
-      </span>
+      <span class="font-normal text-ink-600">({{ formatDays(countWeeklyDays(slots)) }})</span>
     </legend>
     <ul
       class="divide-y divide-ink-200 rounded-lg border bg-white px-3 sm:px-4"

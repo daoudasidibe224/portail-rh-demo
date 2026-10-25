@@ -74,36 +74,6 @@ export function entryFor(
   return regular
 }
 
-/** Dates déjà couvertes par une demande ponctuelle active. */
-function bookedDates(requests: readonly TeleworkRequest[], employeeId: string): Set<ISODate> {
-  const dates = new Set<ISODate>()
-  for (const request of requests) {
-    if (request.employeeId !== employeeId) continue
-    if (!ACTIVE_STATUSES.includes(request.status) || request.type === 'regular') continue
-    for (const day of request.days) dates.add(day.date)
-  }
-  return dates
-}
-
-/** Dates à ne pas redemander : jours ponctuels actifs et jours déjà couverts par un rythme régulier. */
-export function unavailableDates(
-  requests: readonly TeleworkRequest[],
-  employeeId: string,
-  from: ISODate,
-  horizonDays = 366,
-): Set<ISODate> {
-  const dates = bookedDates(requests, employeeId)
-  const regulars = requests.filter(
-    (r) => r.employeeId === employeeId && hasRhythm(r) && ACTIVE_STATUSES.includes(r.status),
-  )
-  if (!regulars.length) return dates
-  for (let i = 0; i <= horizonDays; i++) {
-    const date = addDays(from, i)
-    if (entryFor(regulars, employeeId, date)) dates.add(date)
-  }
-  return dates
-}
-
 /** Prochaine journée de télétravail à partir de `from` (incluse). */
 export function nextTeleworkDay(
   requests: readonly TeleworkRequest[],
@@ -115,29 +85,4 @@ export function nextTeleworkDay(
     if (entry) return entry
   }
   return null
-}
-
-/** Première date concernée : le plus petit jour ponctuel, ou le début d'un rythme régulier. */
-export function firstDate(request: TeleworkRequest): ISODate | null {
-  const first = [...request.days].map((d) => d.date).sort()[0] ?? null
-  if (!hasRhythm(request) || !request.startDate) return first
-  return first && first < request.startDate ? first : request.startDate
-}
-
-function lastDate(request: TeleworkRequest): ISODate | null {
-  if (hasRhythm(request) && !request.endDate) return null
-  const lastDay = request.days.reduce<ISODate | null>(
-    (max, d) => (!max || d.date > max ? d.date : max),
-    null,
-  )
-  if (!hasRhythm(request)) return lastDay
-  return lastDay && lastDay > request.endDate ? lastDay : request.endDate
-}
-
-/** En attente, ou validée et pas encore passée. Ce sont aussi les demandes annulables. */
-export function isOngoing(request: TeleworkRequest, today: ISODate): boolean {
-  if (request.status === 'pending') return true
-  if (request.status !== 'approved') return false
-  const last = lastDate(request)
-  return last === null || last >= today
 }

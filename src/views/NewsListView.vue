@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import NewsListItem from '@/components/news/NewsListItem.vue'
-import NewsletterOptIn from '@/components/news/NewsletterOptIn.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import PageTitle from '@/components/ui/PageTitle.vue'
 import { usePageHeading } from '@/composables/usePageHeading'
@@ -19,7 +18,5 @@ const heading = usePageHeading()
     <EmptyState v-else class="card" title="Aucune actualité pour le moment.">
       Les prochaines annonces RH apparaîtront ici dès leur publication.
     </EmptyState>
-
-    <NewsletterOptIn />
   </div>
 </template>

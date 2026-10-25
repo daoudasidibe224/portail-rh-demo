@@ -32,7 +32,7 @@ export function buildRequest(
     seed.status !== 'pending' && decidedOn
       ? {
           at: timestamp(decidedOn, DECISION_TIME),
-          actorId: seed.status === 'cancelled' ? seed.employeeId : findManagerId(seed, employees),
+          actorId: findManagerId(seed, employees),
           action: seed.status,
           comment: decisionComment,
         }

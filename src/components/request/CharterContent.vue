@@ -7,9 +7,6 @@ import { RULES } from '@/domain/rules'
     <li>Vous restez joignable sur vos horaires habituels.</li>
     <li>Vous travaillez depuis votre domicile déclaré, avec une connexion stable.</li>
     <li>
-      Le télétravail régulier est limité à {{ RULES.regularMaxDaysPerWeek }} jours par semaine.
-    </li>
-    <li>
       Le télétravail occasionnel est plafonné à {{ RULES.occasionalAllowancePerYear }} jours par an.
     </li>
     <li>Votre manager peut demander votre présence pour une réunion ou une formation.</li>

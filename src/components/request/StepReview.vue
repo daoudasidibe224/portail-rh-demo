@@ -2,10 +2,8 @@
 import CommitmentFields from '@/components/request/CommitmentFields.vue'
 import PlanningPreview from '@/components/request/PlanningPreview.vue'
 import RequestSummary from '@/components/request/RequestSummary.vue'
-import SectionHelp from '@/components/request/SectionHelp.vue'
 import { useRequestTarget } from '@/composables/useRequestTarget'
 import { CONTACT } from '@/domain/contact'
-import { RULES } from '@/domain/rules'
 import type { ValidationError } from '@/domain/validation'
 import { useDraftStore } from '@/stores/draft'
 import { usePortalStore } from '@/stores/portal'
@@ -21,16 +19,6 @@ const { target } = useRequestTarget()
 
 <template>
   <div class="space-y-6">
-    <SectionHelp title="Vérification et engagements">
-      <p>Relisez le récapitulatif : après l’envoi, votre manager reçoit la demande.</p>
-      <p>
-        La charte du télétravail ({{ RULES.charterVersion }}) s’accepte une seule fois. Elle
-        remplace la version {{ RULES.previousCharterVersion }}.
-      </p>
-      <p>La connexion stable est à confirmer à chaque demande.</p>
-      <p>Le recontact par le service RH et la lettre RH sont facultatifs.</p>
-    </SectionHelp>
-
     <RequestSummary detailed />
     <p class="text-sm text-ink-600">
       Une information est inexacte ? Écrivez à

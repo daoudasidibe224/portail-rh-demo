@@ -22,8 +22,6 @@ export function validateDays(draft: RequestDraft, ctx: ValidationContext, add: A
     } else if (!isBusinessDay(date)) {
       const reason = isWeekend(date) ? 'tombe un week-end' : `est férié (${holidayName(date)})`
       add('days', `Le ${formatLong(date)} ${reason}.`)
-    } else if (ctx.bookedDates.has(date)) {
-      add('days', `Vous êtes déjà en télétravail ou avez déjà une demande le ${formatLong(date)}.`)
     } else if (seen.has(date)) {
       add('days', `Le ${formatLong(date)} est sélectionné deux fois.`)
     }

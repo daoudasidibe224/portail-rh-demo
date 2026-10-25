@@ -1,20 +1,11 @@
 import type { DayPeriod, RequestReason, RequestStatus, RequestType, Weekday } from './types'
 
 // Règles métier. Valeurs du portail historique, à confirmer avec les RH.
-const ATTACHMENT_FORMATS = [
-  { type: 'application/pdf', label: 'PDF', extensions: ['.pdf'] },
-  { type: 'image/jpeg', label: 'JPG', extensions: ['.jpg', '.jpeg'] },
-  { type: 'image/png', label: 'PNG', extensions: ['.png'] },
-]
-
 export const RULES = {
   occasionalAllowancePerYear: 8,
   regularNoticeDays: 14,
-  regularMaxDaysPerWeek: 2,
-  regularMaxDurationMonths: 12,
-  commentMaxLength: 500,
-  attachmentMaxBytes: 2 * 1024 * 1024,
-  attachmentTypes: ATTACHMENT_FORMATS.map((format) => format.type) as readonly string[],
+  // Justificatif : PDF de 200 Ko au plus, comme dans l'ancien formulaire.
+  attachmentMaxBytes: 200 * 1024,
   // Une journée de 7 h 24, en minutes.
   workMinutesPerDay: 444,
   // Délai maximal annoncé pour la réponse du manager, en jours ouvrés.
@@ -26,10 +17,9 @@ export const RULES = {
 } as const
 
 // Pour l'attribut `accept` du champ fichier et pour les messages.
-export const ATTACHMENT_ACCEPT = ATTACHMENT_FORMATS.flatMap((f) => f.extensions).join(',')
-export const ATTACHMENT_LABEL = `${ATTACHMENT_FORMATS.slice(0, -1)
-  .map((f) => f.label)
-  .join(', ')} ou ${ATTACHMENT_FORMATS.at(-1)!.label}`
+export const ATTACHMENT_ACCEPT = '.pdf'
+export const ATTACHMENT_TYPE = 'application/pdf'
+export const ATTACHMENT_LABEL = 'PDF'
 
 interface RequestTypeInfo {
   // Code de l'ancien portail, gardé pour le rapprochement côté RH.
@@ -49,7 +39,7 @@ export const REQUEST_TYPES: Record<RequestType, RequestTypeInfo> = {
     label: 'Régulier',
     choiceLabel: 'TTR – Télétravail régulier (code 41)',
     description: 'Les mêmes jours chaque semaine.',
-    rule: `Jusqu’à ${RULES.regularMaxDaysPerWeek} jours par semaine, à demander ${RULES.regularNoticeDays} jours à l’avance.`,
+    rule: `À demander ${RULES.regularNoticeDays} jours à l’avance.`,
   },
   occasional: {
     code: '42',
@@ -85,7 +75,7 @@ export const REQUEST_TYPES: Record<RequestType, RequestTypeInfo> = {
     label: 'Mixte',
     choiceLabel: 'TTR+TTO – Mixte (sur dérogation)',
     description: 'Un rythme régulier et des jours occasionnels dans la même demande.',
-    rule: 'Sur dérogation : expliquez-la dans le message. Les jours occasionnels sont décomptés du solde.',
+    rule: 'Sur dérogation. Les jours occasionnels sont décomptés du solde.',
   },
 }
 
@@ -154,7 +144,6 @@ export const STATUSES: Record<RequestStatus, { label: string }> = {
   pending: { label: 'En attente' },
   approved: { label: 'Validée' },
   rejected: { label: 'Refusée' },
-  cancelled: { label: 'Annulée' },
 }
 
 // Statuts dont les jours comptent encore dans le solde.

@@ -2,7 +2,7 @@ import { CONTACT } from './contact'
 import type { Employee } from './types'
 
 /** Minuscules, sans accent ni apostrophe : « Inès » et « ines » se valent. */
-export function normalizeText(value: string): string {
+function normalizeText(value: string): string {
   return value
     .normalize('NFD')
     .replace(/\p{Diacritic}/gu, '')

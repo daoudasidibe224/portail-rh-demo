@@ -1,40 +1,46 @@
 <script setup lang="ts">
-import { TabsContent, TabsRoot } from 'reka-ui'
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 
-import TeamBulkApproveDialog from '@/components/team/TeamBulkApproveDialog.vue'
 import TeamHeader from '@/components/team/TeamHeader.vue'
-import TeamPendingTab from '@/components/team/TeamPendingTab.vue'
-import TeamPresenceTab from '@/components/team/TeamPresenceTab.vue'
+import TeamPendingList from '@/components/team/TeamPendingList.vue'
 import TeamRejectDialog from '@/components/team/TeamRejectDialog.vue'
-import TeamTabList from '@/components/team/TeamTabList.vue'
 import { usePageHeading } from '@/composables/usePageHeading'
-import { useTeamDecisions } from '@/composables/useTeamDecisions'
-import { useTeamExport } from '@/composables/useTeamExport'
-import { MEMBERS_PER_PAGE, useTeamPresence } from '@/composables/useTeamPresence'
-import { useTeamPending } from '@/composables/useTeamPending'
-import { useTeamSelection } from '@/composables/useTeamSelection'
+import { useToast } from '@/composables/useToast'
+import { fullName, type TeleworkRequest } from '@/domain/types'
 import { usePortalStore } from '@/stores/portal'
 
 const portal = usePortalStore()
 const heading = usePageHeading()
-const tabList = ref<{ focusPending: () => void } | null>(null)
-const tab = ref(portal.teamPending.length ? 'pending' : 'presence')
+const { show } = useToast()
 
-const pending = useTeamPending()
-const selection = useTeamSelection(
-  pending.list,
-  pending.pager.visible,
-  pending.filters,
-  pending.authorName,
-)
-const decisions = useTeamDecisions(() => tabList.value?.focusPending())
-const presence = useTeamPresence()
-const planningExport = useTeamExport(presence.filteredRows, presence.weekDays, presence.weekNumber)
+const listTitle = ref<HTMLElement | null>(null)
+const rejecting = ref<TeleworkRequest | null>(null)
 
-function approveSelected() {
-  decisions.approveMany(selection.bulkRequests.value)
-  selection.clear()
+function authorName(request: TeleworkRequest) {
+  const employee = portal.employeeById(request.employeeId)
+  return employee ? fullName(employee) : 'Collaborateur inconnu'
+}
+
+// La demande décidée quitte la liste, et son bouton avec elle : le focus revient au titre.
+async function focusList(afterDialog = false) {
+  await nextTick()
+  // Le dialogue rend d'abord le focus à son déclencheur, qui n'existe plus.
+  if (afterDialog) setTimeout(() => listTitle.value?.focus(), 0)
+  else listTitle.value?.focus()
+}
+
+function approve(request: TeleworkRequest) {
+  portal.approve(request.id)
+  show(`Demande de ${authorName(request)} validée`)
+  void focusList()
+}
+
+function reject(comment: string) {
+  const request = rejecting.value
+  if (!request) return
+  portal.reject(request.id, comment)
+  show(`Demande de ${authorName(request)} refusée`, { tone: 'info' })
+  void focusList(true)
 }
 </script>
 
@@ -46,64 +52,28 @@ function approveSelected() {
       :pending-count="portal.teamPending.length"
     />
 
-    <TabsRoot v-model="tab" class="card overflow-hidden">
-      <TeamTabList ref="tabList" :pending-count="portal.teamPending.length" />
+    <section class="card overflow-hidden" aria-labelledby="pending-title">
+      <h2
+        id="pending-title"
+        ref="listTitle"
+        tabindex="-1"
+        class="border-b border-ink-200 px-4 py-3 text-lg font-semibold text-ink-900 sm:px-5"
+      >
+        À valider
+      </h2>
+      <TeamPendingList
+        :requests="portal.teamPending"
+        :name-of="authorName"
+        @approve="approve"
+        @reject="rejecting = $event"
+      />
+    </section>
 
-      <TabsContent value="pending" class="focus-visible:outline-none">
-        <TeamPendingTab
-          v-model:filters="pending.filters.value"
-          :empty="!portal.teamPending.length"
-          :filters-visible="pending.filtersVisible.value"
-          :results-label="pending.resultsLabel.value"
-          :pager="pending.pager"
-          :page-requests="pending.pager.visible.value"
-          :selected="selection.selected.value"
-          :can-select-all="selection.canSelectAll.value"
-          :name-of="pending.authorName"
-          :remote="pending.remoteFor"
-          @toggle="selection.toggleOne"
-          @toggle-page="selection.togglePage"
-          @approve="decisions.approve"
-          @reject="decisions.rejecting.value = $event"
-          @approve-selected="selection.bulkOpen.value = true"
-          @clear-selection="selection.clear"
-          @select-all="selection.selectAll"
-        />
-      </TabsContent>
-
-      <TabsContent value="presence" class="focus-visible:outline-none">
-        <TeamPresenceTab
-          v-model:query="presence.memberQuery.value"
-          v-model:team="presence.teamFilter.value"
-          :rows="presence.pager.visible.value"
-          :filtered-count="presence.filteredRows.value.length"
-          :member-count="portal.teamMembers.length"
-          :per-page="MEMBERS_PER_PAGE"
-          :teams="presence.teams.value"
-          :week-days="presence.weekDays.value"
-          :week-number="presence.weekNumber.value"
-          :today="portal.today"
-          :remote-count="presence.remoteCount"
-          :pager="presence.pager"
-          @previous="presence.weekOffset.value--"
-          @next="presence.weekOffset.value++"
-          @export="planningExport.exportPlanning"
-          @print="planningExport.printPlanning"
-        />
-      </TabsContent>
-    </TabsRoot>
-
-    <TeamBulkApproveDialog
-      v-model:open="selection.bulkOpen.value"
-      :title="selection.bulkTitle.value"
-      :names="selection.bulkDescription.value"
-      :count="selection.bulkRequests.value.length"
-      @confirm="approveSelected"
-    />
     <TeamRejectDialog
-      v-model:open="decisions.rejectOpen.value"
-      :author-name="decisions.rejecting.value ? pending.authorName(decisions.rejecting.value) : ''"
-      @confirm="decisions.reject"
+      :open="rejecting !== null"
+      :author-name="rejecting ? authorName(rejecting) : ''"
+      @update:open="(open) => !open && (rejecting = null)"
+      @confirm="reject"
     />
   </div>
 </template>

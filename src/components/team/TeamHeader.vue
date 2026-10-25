@@ -21,7 +21,7 @@ defineExpose({ focus: () => title.value?.focus() })
         {{ plural(pendingCount, 'demande') }} à valider
       </p>
     </div>
-    <AppButton :to="{ name: 'new-request', query: { pour: 'membre' } }" class="print:hidden">
+    <AppButton :to="{ name: 'new-request', query: { pour: 'membre' } }">
       <UserPlus class="size-4" aria-hidden="true" />
       Ajouter un télétravail pour un membre
     </AppButton>

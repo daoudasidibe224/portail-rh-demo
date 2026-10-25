@@ -2,7 +2,7 @@ import type { ISODate } from './dates'
 
 // `absence` et `unused` existent dans la liste de l'ancien formulaire, mais ne s'envoient pas ici.
 export type RequestType = 'occasional' | 'regular' | 'exceptional' | 'mixed' | 'absence' | 'unused'
-export type RequestStatus = 'pending' | 'approved' | 'rejected' | 'cancelled'
+export type RequestStatus = 'pending' | 'approved' | 'rejected'
 export type DayPeriod = 'day' | 'am' | 'pm'
 export type Weekday = 1 | 2 | 3 | 4 | 5
 export type RequestReason =
@@ -66,7 +66,7 @@ export interface RequestDraft {
 export interface HistoryEvent {
   at: string
   actorId: string
-  action: 'submitted' | 'approved' | 'rejected' | 'cancelled'
+  action: 'submitted' | 'approved' | 'rejected'
   comment?: string
 }
 

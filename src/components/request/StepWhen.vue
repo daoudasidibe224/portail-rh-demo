@@ -3,14 +3,11 @@ import { computed } from 'vue'
 
 import DayPicker from '@/components/request/DayPicker.vue'
 import FieldError from '@/components/request/FieldError.vue'
-import SectionHelp from '@/components/request/SectionHelp.vue'
 import TypeChoice from '@/components/request/TypeChoice.vue'
 import WhoPicker from '@/components/request/WhoPicker.vue'
 import WeeklyPattern from '@/components/request/WeeklyPattern.vue'
-import { useRequestTarget } from '@/composables/useRequestTarget'
 import { addDays } from '@/domain/dates'
 import { formatFull } from '@/domain/dateFormat'
-import { formatHours } from '@/domain/format'
 import { RULES } from '@/domain/rules'
 import type { RequestType } from '@/domain/types'
 import type { ValidationError } from '@/domain/validation'
@@ -24,7 +21,6 @@ const props = defineProps<{ errors: readonly ValidationError[] }>()
 const portal = usePortalStore()
 const drafts = useDraftStore()
 const { fieldErrors, invalid, describedBy } = useFieldState(() => props.errors)
-const { target } = useRequestTarget()
 
 const type = computed({
   get: () => drafts.draft.type,
@@ -45,32 +41,6 @@ const earliestRegularStart = computed(() => addDays(portal.today, RULES.regularN
 
 <template>
   <div class="space-y-8">
-    <SectionHelp title="Type et dates">
-      <p>
-        <strong>Occasionnel</strong> : quelques jours choisis dans le calendrier, décomptés de votre
-        solde annuel de {{ RULES.occasionalAllowancePerYear }} jours.
-      </p>
-      <p>
-        <strong>Régulier</strong> : les mêmes jours chaque semaine,
-        {{ RULES.regularMaxDaysPerWeek }} jours par semaine au plus, à demander
-        {{ RULES.regularNoticeDays }} jours à l’avance, pour
-        {{ RULES.regularMaxDurationMonths }} mois au plus.
-      </p>
-      <p>
-        <strong>Exceptionnel</strong> : grève, intempéries… Possible le jour même et non décompté du
-        solde.
-      </p>
-      <p>
-        <strong>Mixte</strong> : un rythme régulier et des jours occasionnels, sur dérogation. Le
-        message doit l’expliquer.
-      </p>
-      <p>
-        Choisissez vos jours dans le calendrier. Les week-ends, les jours fériés et les jours déjà
-        demandés ne peuvent pas être choisis. Une journée compte 1 jour ({{ formatHours(1) }}), une
-        demi-journée 0,5 jour.
-      </p>
-    </SectionHelp>
-
     <WhoPicker v-if="portal.teamMembers.length" :errors="errors" />
 
     <div :id="anchors.type">
@@ -90,7 +60,6 @@ const earliestRegularStart = computed(() => addDays(portal.today, RULES.regularN
           :id="anchors.days"
           v-model="drafts.draft.days"
           :today="portal.today"
-          :booked="portal.bookedDatesFor(target)"
           :described-by="describedBy('days')"
           :invalid="invalid('days')"
         />
@@ -132,7 +101,7 @@ const earliestRegularStart = computed(() => addDays(portal.today, RULES.regularN
               Date de fin <span class="font-normal text-ink-600">(facultatif)</span>
             </label>
             <p id="end-hint" class="mt-0.5 text-sm text-ink-600">
-              Sans date de fin : {{ RULES.regularMaxDurationMonths }} mois, renouvelable
+              Sans date de fin, le rythme continue
             </p>
             <input
               :id="anchors.endDate"

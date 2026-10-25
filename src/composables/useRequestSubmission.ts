@@ -9,20 +9,18 @@ import { fullName } from '@/domain/types'
 import type { ValidationError } from '@/domain/validation'
 import { useDraftStore } from '@/stores/draft'
 import { usePortalStore, ValidationFailedError } from '@/stores/portal'
-import { usePreferencesStore } from '@/stores/preferences'
 
 /** Confirmation et envoi de la demande. `onInvalid` reçoit les erreurs si l'état a changé entre-temps. */
 export function useRequestSubmission(onInvalid: (errors: readonly ValidationError[]) => void) {
   const portal = usePortalStore()
   const drafts = useDraftStore()
-  const preferences = usePreferencesStore()
   const router = useRouter()
   const { show } = useToast()
   const { forOther, person } = useRequestTarget()
 
   const sendOpen = ref(false)
-  // Appliquée à l'envoi seulement : abandonner la demande ne change pas l'abonnement.
-  const newsletter = ref(preferences.newsletter)
+  // Case du formulaire, comme dans l'ancien : le choix n'est pas conservé.
+  const newsletter = ref(false)
 
   const managerName = () => (portal.manager ? fullName(portal.manager) : 'Votre manager')
 
@@ -45,7 +43,6 @@ export function useRequestSubmission(onInvalid: (errors: readonly ValidationErro
       onInvalid(error.errors)
       return
     }
-    if (newsletter.value !== preferences.newsletter) preferences.setNewsletter(newsletter.value)
     drafts.reset()
     show(other ? 'Demande enregistrée' : 'Demande envoyée', {
       description: other

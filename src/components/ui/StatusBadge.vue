@@ -13,10 +13,6 @@ const style = computed(
       pending: { text: 'text-warning-700', mark: 'border-2 border-warning-700' },
       approved: { text: 'text-success-700', mark: 'bg-success-700' },
       rejected: { text: 'text-brand-700', mark: 'bg-brand-700' },
-      cancelled: {
-        text: 'text-ink-600',
-        mark: 'border-2 border-ink-400 bg-[linear-gradient(135deg,transparent_45%,var(--color-ink-400)_45%_60%,transparent_60%)]',
-      },
     })[props.status],
 )
 </script>

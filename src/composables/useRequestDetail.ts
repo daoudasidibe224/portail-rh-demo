@@ -52,7 +52,6 @@ export function useRequestDetail(getId: () => string) {
   }
 
   const approve = () => run(() => portal.approve(getId()), `Demande de ${authorName.value} validée`)
-  const cancel = () => run(() => portal.cancel(getId()), 'Demande annulée')
   const reject = (comment: string) => run(() => portal.reject(getId(), comment), 'Demande refusée')
 
   return {
@@ -65,7 +64,6 @@ export function useRequestDetail(getId: () => string) {
     responseDeadline,
     managerName,
     approve,
-    cancel,
     reject,
   }
 }

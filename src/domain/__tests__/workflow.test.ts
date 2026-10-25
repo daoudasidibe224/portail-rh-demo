@@ -98,7 +98,7 @@ describe('assertCanTransition', () => {
     type: 'occasional',
     days: [{ date: '2026-03-10', period: 'day' }],
   } as TeleworkRequest
-  const ctx = { today: '2026-03-02', author }
+  const ctx = { author }
 
   it('laisse le manager valider une demande en attente', () => {
     expect(() =>
@@ -120,18 +120,5 @@ describe('assertCanTransition', () => {
     expect(() =>
       assertCanTransition(request, 'rejected', { ...ctx, actorId: 'e-manager', comment: ' ' }),
     ).toThrow('motif')
-  })
-
-  it('réserve l’annulation au demandeur, tant que la demande est en cours', () => {
-    expect(() =>
-      assertCanTransition(request, 'cancelled', { ...ctx, actorId: 'e-author' }),
-    ).not.toThrow()
-    expect(() =>
-      assertCanTransition(request, 'cancelled', { ...ctx, actorId: 'e-manager' }),
-    ).toThrow('Action non autorisée')
-    const past = { ...request, status: 'approved' } as TeleworkRequest
-    expect(() =>
-      assertCanTransition(past, 'cancelled', { ...ctx, today: '2026-04-01', actorId: 'e-author' }),
-    ).toThrow('plus être annulée')
   })
 })

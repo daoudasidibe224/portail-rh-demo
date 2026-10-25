@@ -24,10 +24,9 @@ import type { RequestedDay } from '@/domain/types'
 import { DEFAULT_PERIOD } from './defaults'
 import SelectedDays from './SelectedDays.vue'
 
-const props = defineProps<{
+defineProps<{
   id: string
   today: ISODate
-  booked: ReadonlySet<ISODate>
   describedBy?: string
   invalid?: boolean
 }>()
@@ -49,11 +48,10 @@ const navButtonClass =
 
 function isUnavailable(date: DateValue): boolean {
   const iso = date.toString()
-  return isWeekend(iso) || holidayName(iso) !== undefined || props.booked.has(iso)
+  return isWeekend(iso) || holidayName(iso) !== undefined
 }
 
 function cellHint(iso: ISODate): string | undefined {
-  if (props.booked.has(iso)) return 'déjà demandé'
   return holidayName(iso)
 }
 </script>

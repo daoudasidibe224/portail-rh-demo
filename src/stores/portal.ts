@@ -5,7 +5,7 @@ import { todayISO, yearOf } from '@/domain/dates'
 import { employeeFromDraft, historyEvent, requestFromDraft } from '@/domain/requestFactory'
 import { RULES } from '@/domain/rules'
 import { sortRequests } from '@/domain/requestFilters'
-import { isOngoing, occasionalBalance, unavailableDates } from '@/domain/schedule'
+import { occasionalBalance } from '@/domain/schedule'
 import { createSeed, isPortalState, type PortalState } from '@/domain/seed'
 import type { Employee, HistoryEvent, RequestDraft, TeleworkRequest } from '@/domain/types'
 import { validateDraft, type ValidationContext, type ValidationError } from '@/domain/validation'
@@ -71,10 +71,6 @@ export const usePortalStore = defineStore('portal', () => {
     occasionalBalance(state.value.requests, currentUser.value.id, Number(yearOf(today.value))),
   )
 
-  const bookedDates = computed(() =>
-    unavailableDates(state.value.requests, currentUser.value.id, today.value),
-  )
-
   function employeeById(id: string | null | undefined): Employee | undefined {
     return id ? state.value.employees.find((e) => e.id === id) : undefined
   }
@@ -102,16 +98,11 @@ export const usePortalStore = defineStore('portal', () => {
         }
   }
 
-  function bookedDatesFor(employee: Employee | undefined): Set<string> {
-    return employee ? unavailableDates(state.value.requests, employee.id, today.value) : new Set()
-  }
-
   function validationContext(draft: RequestDraft): ValidationContext {
     const target = targetOf(draft)
     return {
       today: today.value,
       availableBalance: balanceFor(target).available,
-      bookedDates: bookedDatesFor(target),
       // La charte est acceptée par la personne elle-même, pas par son manager.
       charterAlreadyAccepted: draft.onBehalf.kind === 'self' ? charterAccepted.value : true,
       knownMatricules: new Set(state.value.employees.map((e) => e.matricule)),
@@ -158,7 +149,6 @@ export const usePortalStore = defineStore('portal', () => {
     if (!request) throw new Error(`Demande ${id} introuvable`)
     assertCanTransition(request, action, {
       actorId: currentUser.value.id,
-      today: today.value,
       author: employeeById(request.employeeId),
       comment,
     })
@@ -169,11 +159,6 @@ export const usePortalStore = defineStore('portal', () => {
 
   const approve = (id: string, comment?: string) => transition(id, 'approved', comment)
   const reject = (id: string, comment: string) => transition(id, 'rejected', comment)
-  const cancel = (id: string) => transition(id, 'cancelled')
-
-  function canCancel(request: TeleworkRequest): boolean {
-    return request.employeeId === currentUser.value.id && isOngoing(request, today.value)
-  }
 
   function acceptCharter() {
     currentUser.value.charterAcceptedVersion = RULES.charterVersion
@@ -197,18 +182,14 @@ export const usePortalStore = defineStore('portal', () => {
     teamMembers,
     teamPending,
     balance,
-    bookedDates,
     targetOf,
     balanceFor,
-    bookedDatesFor,
     employeeById,
     requestById,
     validate,
     submit,
     approve,
     reject,
-    cancel,
-    canCancel,
     acceptCharter,
     resetDemo,
   }
