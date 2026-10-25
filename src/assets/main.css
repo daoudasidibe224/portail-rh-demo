@@ -4,7 +4,6 @@
 @import '@fontsource/ibm-plex-sans/600.css';
 @import '@fontsource/ibm-plex-sans/700.css';
 @import '@fontsource/ibm-plex-sans-condensed/600.css';
-@import '@fontsource/ibm-plex-sans-condensed/700.css';
 
 /* Design tokens. Palette Tailwind désactivée. */
 @theme {
@@ -152,7 +151,6 @@
   @apply hover:border-ink-600 aria-invalid:border-brand-700 aria-invalid:ring-1 aria-invalid:ring-brand-700;
 }
 
-/* Liste déroulante native, flèche dessinée. */
 @utility field-label {
   @apply block text-sm font-medium text-ink-900;
 }
@@ -169,7 +167,6 @@
   @apply font-semibold text-brand-700 underline underline-offset-2 hover:text-brand-800;
 }
 
-/* Contrôle segmenté. */
 /* Retour à l'appui pour un lien habillé en bouton ; les `<button>` l'ont par la couche base. */
 @utility press {
   transition-property: color, background-color, border-color, scale;
