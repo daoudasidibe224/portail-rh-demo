@@ -31,7 +31,7 @@ const visible = computed(() => ancestors.value.length > 1)
       <li v-for="item in ancestors" :key="item.name" class="flex items-center gap-1.5">
         <RouterLink
           :to="{ name: item.name }"
-          class="underline underline-offset-2 hover:text-ink-900"
+          class="inline-flex min-h-8 items-center underline underline-offset-2 hover:text-ink-900"
         >
           {{ item.title }}
         </RouterLink>

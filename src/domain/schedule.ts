@@ -1,6 +1,12 @@
-import { addDays, isBusinessDay, isoWeekday, type ISODate } from './dates'
+import { addDays, isoWeekday, type ISODate } from './dates'
+import { isBusinessDay } from './businessDays'
 import { ACTIVE_STATUSES, PERIODS, RULES } from './rules'
 import type { DayPeriod, RequestedDay, TeleworkRequest, WeeklySlot } from './types'
+
+/** Les types régulier et mixte suivent un rythme hebdomadaire. */
+export function hasRhythm(request: Pick<TeleworkRequest, 'type'>): boolean {
+  return request.type === 'regular' || request.type === 'mixed'
+}
 
 function periodWeight(period: DayPeriod): number {
   return PERIODS[period].weight
@@ -29,7 +35,8 @@ export function occasionalBalance(
   let approved = 0
   let pending = 0
   for (const request of requests) {
-    if (request.employeeId !== employeeId || request.type !== 'occasional') continue
+    if (request.employeeId !== employeeId) continue
+    if (request.type !== 'occasional' && request.type !== 'mixed') continue
     const days = countDays(request.days.filter((d) => d.date.startsWith(`${year}-`)))
     if (request.status === 'approved') approved += days
     if (request.status === 'pending') pending += days
@@ -54,25 +61,21 @@ export function entryFor(
   let regular: DayEntry | null = null
   for (const request of requests) {
     if (request.employeeId !== employeeId || !ACTIVE_STATUSES.includes(request.status)) continue
-    if (request.type === 'regular') {
-      if (!request.startDate || date < request.startDate) continue
-      if (request.endDate && date > request.endDate) continue
-      const slot = request.weeklySlots.find((s) => s.weekday === isoWeekday(date))
-      if (slot && !regular) regular = { date, period: slot.period, request }
-      continue
+    if (hasRhythm(request) && request.startDate && date >= request.startDate) {
+      if (!request.endDate || date <= request.endDate) {
+        const slot = request.weeklySlots.find((s) => s.weekday === isoWeekday(date))
+        if (slot && !regular) regular = { date, period: slot.period, request }
+      }
     }
-    const day = request.days.find((d) => d.date === date)
     // Un jour ponctuel prime sur le rythme régulier.
+    const day = request.days.find((d) => d.date === date)
     if (day) return { date, period: day.period, request }
   }
   return regular
 }
 
 /** Dates déjà couvertes par une demande ponctuelle active. */
-export function bookedDates(
-  requests: readonly TeleworkRequest[],
-  employeeId: string,
-): Set<ISODate> {
+function bookedDates(requests: readonly TeleworkRequest[], employeeId: string): Set<ISODate> {
   const dates = new Set<ISODate>()
   for (const request of requests) {
     if (request.employeeId !== employeeId) continue
@@ -91,8 +94,7 @@ export function unavailableDates(
 ): Set<ISODate> {
   const dates = bookedDates(requests, employeeId)
   const regulars = requests.filter(
-    (r) =>
-      r.employeeId === employeeId && r.type === 'regular' && ACTIVE_STATUSES.includes(r.status),
+    (r) => r.employeeId === employeeId && hasRhythm(r) && ACTIVE_STATUSES.includes(r.status),
   )
   if (!regulars.length) return dates
   for (let i = 0; i <= horizonDays; i++) {
@@ -117,16 +119,19 @@ export function nextTeleworkDay(
 
 /** Première date concernée : le plus petit jour ponctuel, ou le début d'un rythme régulier. */
 export function firstDate(request: TeleworkRequest): ISODate | null {
-  if (request.type === 'regular') return request.startDate || null
-  return [...request.days].map((d) => d.date).sort()[0] ?? null
+  const first = [...request.days].map((d) => d.date).sort()[0] ?? null
+  if (!hasRhythm(request) || !request.startDate) return first
+  return first && first < request.startDate ? first : request.startDate
 }
 
 function lastDate(request: TeleworkRequest): ISODate | null {
-  if (request.type === 'regular') return request.endDate || null
-  return request.days.reduce<ISODate | null>(
+  if (hasRhythm(request) && !request.endDate) return null
+  const lastDay = request.days.reduce<ISODate | null>(
     (max, d) => (!max || d.date > max ? d.date : max),
     null,
   )
+  if (!hasRhythm(request)) return lastDay
+  return lastDay && lastDay > request.endDate ? lastDay : request.endDate
 }
 
 /** En attente, ou validée et pas encore passée. Ce sont aussi les demandes annulables. */

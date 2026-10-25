@@ -1,39 +1,52 @@
 <script setup lang="ts">
-import { REQUEST_TYPES } from '@/domain/rules'
+import { computed } from 'vue'
+import { RouterLink } from 'vue-router'
+
+import { REQUEST_TYPE_ORDER, REQUEST_TYPES } from '@/domain/rules'
 import type { RequestType } from '@/domain/types'
 
+defineProps<{ invalid?: boolean; describedBy?: string }>()
+
 const model = defineModel<RequestType>({ required: true })
-const types = Object.keys(REQUEST_TYPES) as RequestType[]
+const info = computed(() => REQUEST_TYPES[model.value])
 </script>
 
 <template>
-  <fieldset>
-    <legend class="text-lg font-semibold text-ink-900">Type de télétravail</legend>
-    <div class="mt-3 grid gap-3 md:grid-cols-3">
-      <label
-        v-for="type in types"
-        :key="type"
-        class="relative flex cursor-pointer flex-col gap-1 rounded-lg border border-ink-200 bg-white p-4 transition-colors hover:border-ink-400 has-checked:border-ink-900 has-checked:ring-1 has-checked:ring-ink-900 has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-info-700"
+  <div>
+    <label for="request-type" class="field-label">
+      Type de demande <span class="font-normal text-ink-600">(obligatoire)</span>
+      <span class="ml-1 rounded-full bg-info-50 px-2 py-0.5 text-xs font-semibold text-info-700"
+        >Nouveau</span
       >
-        <span class="flex items-center gap-2">
-          <input
-            v-model="model"
-            type="radio"
-            name="request-type"
-            :value="type"
-            :aria-labelledby="`type-${type}-label`"
-            :aria-describedby="`type-${type}-desc`"
-            class="size-4 accent-ink-900"
-          />
-          <span :id="`type-${type}-label`" class="font-semibold text-ink-900">{{
-            REQUEST_TYPES[type].label
-          }}</span>
-        </span>
-        <span :id="`type-${type}-desc`" class="text-sm text-ink-700">
-          {{ REQUEST_TYPES[type].description }}
-          <span class="mt-1 block text-ink-600">{{ REQUEST_TYPES[type].rule }}</span>
-        </span>
-      </label>
+    </label>
+    <select
+      id="request-type"
+      v-model="model"
+      aria-required="true"
+      :aria-invalid="invalid || undefined"
+      :aria-describedby="['type-info', describedBy].filter(Boolean).join(' ')"
+      class="field-input mt-1.5"
+    >
+      <option value="" disabled>-- Veuillez choisir un type --</option>
+      <option
+        v-for="type in REQUEST_TYPE_ORDER"
+        :key="type"
+        :value="type"
+        :disabled="REQUEST_TYPES[type].disabled"
+      >
+        {{ REQUEST_TYPES[type].choiceLabel }}
+      </option>
+    </select>
+    <div id="type-info" class="mt-3 rounded-lg bg-ink-50 px-4 py-3 text-sm text-ink-700">
+      {{ info.description }}
+      <span v-if="info.rule" class="mt-1 block text-ink-600">{{ info.rule }}</span>
+      <RouterLink
+        v-if="model === 'absence'"
+        to="/services/absences-diverses"
+        class="mt-1 inline-flex min-h-10 items-center font-semibold text-ink-900 underline underline-offset-2"
+      >
+        Aller à « Absences diverses »
+      </RouterLink>
     </div>
-  </fieldset>
+  </div>
 </template>

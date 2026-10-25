@@ -6,7 +6,8 @@ import PeriodChoice from '@/components/request/PeriodChoice.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue'
 import { useToast } from '@/composables/useToast'
-import { formatLong, nextBusinessDay } from '@/domain/dates'
+import { nextBusinessDay } from '@/domain/businessDays'
+import { formatLong } from '@/domain/dateFormat'
 import { formatDays } from '@/domain/format'
 import { PERIODS } from '@/domain/rules'
 import { emptyDraft, fullName, type DayPeriod } from '@/domain/types'
@@ -54,7 +55,7 @@ function submitQuick() {
   try {
     const request = portal.submit(quickDraft.value)
     show('Demande envoyée', {
-      description: `${portal.manager ? fullName(portal.manager) : 'Votre manager'} a été notifié(e). Réf. ${request.reference}.`,
+      description: `${portal.manager ? fullName(portal.manager) : 'Votre manager'} a reçu la demande. Réf. ${request.reference}.`,
     })
   } catch (error) {
     show('La demande n’a pas pu être envoyée', {

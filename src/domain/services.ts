@@ -1,6 +1,6 @@
 import type { HrService, HrServiceGroup } from './types'
 
-export const HR_SERVICE_GROUPS: Record<HrServiceGroup, { label: string }> = {
+const HR_SERVICE_GROUPS: Record<HrServiceGroup, { label: string }> = {
   paie: { label: 'Ma paie' },
   absences: { label: 'Mes absences' },
   documents: { label: 'Mes documents' },
@@ -8,7 +8,7 @@ export const HR_SERVICE_GROUPS: Record<HrServiceGroup, { label: string }> = {
 }
 
 // Seul le télétravail a une vraie page ; les autres ouvrent `/services/:slug` (voir `serviceContent.ts`).
-export const HR_SERVICES: HrService[] = [
+const HR_SERVICES: HrService[] = [
   {
     slug: 'bulletins-de-paie',
     label: 'Mes bulletins de paie',

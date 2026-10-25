@@ -5,7 +5,6 @@ interface JsonStore<T> {
   clear(): void
 }
 
-// Certains navigateurs lèvent une exception rien qu'en lisant `localStorage`.
 function defaultStorage(): Storage | undefined {
   try {
     return globalThis.localStorage

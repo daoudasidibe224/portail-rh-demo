@@ -7,7 +7,7 @@ import AppButton from '@/components/ui/AppButton.vue'
 import PageTitle from '@/components/ui/PageTitle.vue'
 import { usePageHeading } from '@/composables/usePageHeading'
 import { useToast } from '@/composables/useToast'
-import { formatDateTime } from '@/domain/dates'
+import { formatDateTime } from '@/domain/dateFormat'
 import { RULES } from '@/domain/rules'
 import { usePortalStore } from '@/stores/portal'
 
@@ -33,6 +33,10 @@ async function accept() {
     <header>
       <PageTitle ref="heading">Charte du télétravail</PageTitle>
       <p class="mt-1 text-ink-600">Version {{ RULES.charterVersion }}</p>
+      <p class="mt-1 text-sm text-ink-600">
+        La version {{ RULES.previousCharterVersion }} n’est plus en vigueur : seule la version
+        {{ RULES.charterVersion }} s’applique.
+      </p>
     </header>
 
     <div

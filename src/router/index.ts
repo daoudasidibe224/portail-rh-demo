@@ -12,11 +12,11 @@ declare module 'vue-router' {
   }
 }
 
-export const APP_NAME = 'Portail RH'
+const APP_NAME = 'Portail RH'
 
 export const documentTitle = (title: string) => `${title} – ${APP_NAME}`
 
-export const routes: RouteRecordRaw[] = [
+const routes: RouteRecordRaw[] = [
   { path: '/', name: 'home', component: HomeView, meta: { title: 'Accueil', section: 'home' } },
   {
     path: '/teletravail',
@@ -76,6 +76,12 @@ export const routes: RouteRecordRaw[] = [
     meta: { title: 'Service RH', parent: 'home' },
   },
   {
+    path: '/contact',
+    name: 'contact',
+    component: () => import('@/views/ContactView.vue'),
+    meta: { title: 'Contact', parent: 'home' },
+  },
+  {
     path: '/plan-du-site',
     name: 'sitemap',
     component: () => import('@/views/SitemapView.vue'),
@@ -101,9 +107,7 @@ export const routes: RouteRecordRaw[] = [
   },
 ]
 
-export function createAppRouter(
-  history: RouterHistory = createWebHistory(import.meta.env.BASE_URL),
-) {
+function createAppRouter(history: RouterHistory = createWebHistory(import.meta.env.BASE_URL)) {
   const router = createRouter({
     history,
     routes,

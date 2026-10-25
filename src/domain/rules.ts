@@ -1,4 +1,4 @@
-import type { DayPeriod, ExceptionalReason, RequestStatus, RequestType, Weekday } from './types'
+import type { DayPeriod, RequestReason, RequestStatus, RequestType, Weekday } from './types'
 
 // Règles métier. Valeurs du portail historique, à confirmer avec les RH.
 const ATTACHMENT_FORMATS = [
@@ -15,6 +15,10 @@ export const RULES = {
   commentMaxLength: 500,
   attachmentMaxBytes: 2 * 1024 * 1024,
   attachmentTypes: ATTACHMENT_FORMATS.map((format) => format.type) as readonly string[],
+  // Une journée de 7 h 24, en minutes.
+  workMinutesPerDay: 444,
+  // Délai maximal annoncé pour la réponse du manager, en jours ouvrés.
+  responseBusinessDays: 15,
   charterVersion: 'v5',
   previousCharterVersion: 'v4',
   // Jours examinés pour trouver la prochaine journée de télétravail.
@@ -28,36 +32,109 @@ export const ATTACHMENT_LABEL = `${ATTACHMENT_FORMATS.slice(0, -1)
   .join(', ')} ou ${ATTACHMENT_FORMATS.at(-1)!.label}`
 
 interface RequestTypeInfo {
+  // Code de l'ancien portail, gardé pour le rapprochement côté RH.
+  code: string
   label: string
+  // Libellé de la liste de choix, identique à l'ancien formulaire.
+  choiceLabel: string
   description: string
   rule: string
+  // Proposé dans la liste mais non sélectionnable.
+  disabled?: boolean
 }
 
 export const REQUEST_TYPES: Record<RequestType, RequestTypeInfo> = {
-  occasional: {
-    label: 'Occasionnel',
-    description: 'Quelques jours ponctuels choisis dans le calendrier.',
-    rule: `Décompté de votre solde annuel de ${RULES.occasionalAllowancePerYear} jours.`,
-  },
   regular: {
+    code: '41',
     label: 'Régulier',
+    choiceLabel: 'TTR – Télétravail régulier (code 41)',
     description: 'Les mêmes jours chaque semaine.',
     rule: `Jusqu’à ${RULES.regularMaxDaysPerWeek} jours par semaine, à demander ${RULES.regularNoticeDays} jours à l’avance.`,
   },
+  occasional: {
+    code: '42',
+    label: 'Occasionnel',
+    choiceLabel: 'TTO – Télétravail occasionnel (code 42)',
+    description: 'Quelques jours ponctuels choisis dans le calendrier.',
+    rule: `Décompté de votre solde annuel de ${RULES.occasionalAllowancePerYear} jours.`,
+  },
   exceptional: {
+    code: '43',
     label: 'Exceptionnel',
-    description: 'Grève, intempéries, pic de pollution…',
+    choiceLabel: 'TTE – Télétravail exceptionnel (code 43, formulaire TT-07a)',
+    description: 'Grève, intempéries…',
     rule: 'Possible le jour même, non décompté du solde.',
+  },
+  unused: {
+    code: '',
+    label: 'Non utilisé',
+    choiceLabel: 'TTX – Ne pas utiliser',
+    description: 'Ce type est conservé dans la liste mais ne doit pas être utilisé.',
+    rule: '',
+    disabled: true,
+  },
+  absence: {
+    code: '',
+    label: 'Absence',
+    choiceLabel: 'ABS – Absence autre (hors télétravail)',
+    description: 'Une absence qui n’est pas du télétravail.',
+    rule: 'Elle se déclare dans le service « Absences diverses ».',
+  },
+  mixed: {
+    code: '41 + 42',
+    label: 'Mixte',
+    choiceLabel: 'TTR+TTO – Mixte (sur dérogation)',
+    description: 'Un rythme régulier et des jours occasionnels dans la même demande.',
+    rule: 'Sur dérogation : expliquez-la dans le message. Les jours occasionnels sont décomptés du solde.',
   },
 }
 
-export const REASONS: Record<ExceptionalReason, string> = {
+// Ordre de l'ancien formulaire.
+export const REQUEST_TYPE_ORDER: RequestType[] = [
+  'regular',
+  'occasional',
+  'exceptional',
+  'unused',
+  'absence',
+  'mixed',
+]
+
+// Types qui donnent lieu à une demande.
+export const SUBMITTABLE_TYPES: readonly RequestType[] = [
+  'regular',
+  'occasional',
+  'exceptional',
+  'mixed',
+]
+
+export const REASONS: Record<RequestReason, string> = {
+  personal: 'Convenance personnelle',
+  professional: 'Convenance professionnelle',
   strike: 'Grève des transports',
   weather: 'Intempéries',
-  pollution: 'Pic de pollution',
-  health: 'Raison de santé (sur avis médical)',
-  other: 'Autre motif',
+  works: 'Travaux au domicile (hors domicile)',
+  other: 'Autre (préciser dans le commentaire)',
+  unspecified: 'Autre (ne pas préciser)',
 }
+
+export const REASON_ORDER: RequestReason[] = [
+  'personal',
+  'professional',
+  'strike',
+  'weather',
+  'works',
+  'other',
+  'unspecified',
+]
+
+// Centres de coût de l'ancien formulaire (celui du demandeur est présélectionné).
+export const COST_CENTERS: { value: string; label: string; disabled?: boolean }[] = [
+  { value: 'CC-1001-PAR-A', label: 'CC-1001-PAR-A' },
+  { value: 'CC-1001-PAR-B', label: 'CC-1001-PAR-B' },
+  { value: 'CC-1002-LYO', label: 'CC-1002-LYO' },
+  { value: 'CC-1002-LYO-BIS', label: 'CC-1002-LYO-BIS' },
+  { value: 'CC-9999', label: 'CC-9999 (ne pas utiliser)', disabled: true },
+]
 
 export const PERIODS: Record<DayPeriod, { label: string; short: string; weight: number }> = {
   day: { label: 'Journée', short: 'journée', weight: 1 },

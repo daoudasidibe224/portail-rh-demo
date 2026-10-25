@@ -5,6 +5,8 @@ import { createJsonStore, STORAGE_PREFIX } from '@/services/storage'
 
 interface SavedPreferences {
   newsletter: boolean
+  // Absent des préférences enregistrées avant l'ajout du bandeau.
+  noticeDismissed?: boolean
 }
 
 function isSavedPreferences(value: unknown): value is SavedPreferences {
@@ -22,13 +24,27 @@ const preferencesStorage = createJsonStore<SavedPreferences>(
 
 // Si le navigateur refuse l'enregistrement, la valeur reste valable pour la session.
 export const usePreferencesStore = defineStore('preferences', () => {
-  const newsletter = ref(preferencesStorage.load()?.newsletter ?? false)
+  const saved = preferencesStorage.load()
+  const newsletter = ref(saved?.newsletter ?? false)
+  const noticeDismissed = ref(saved?.noticeDismissed ?? false)
   const persistenceError = ref(false)
+
+  function persist() {
+    persistenceError.value = !preferencesStorage.save({
+      newsletter: newsletter.value,
+      noticeDismissed: noticeDismissed.value,
+    })
+  }
 
   function setNewsletter(value: boolean) {
     newsletter.value = value
-    persistenceError.value = !preferencesStorage.save({ newsletter: value })
+    persist()
   }
 
-  return { newsletter, persistenceError, setNewsletter }
+  function dismissNotice() {
+    noticeDismissed.value = true
+    persist()
+  }
+
+  return { newsletter, noticeDismissed, persistenceError, setNewsletter, dismissNotice }
 })

@@ -2,12 +2,14 @@ import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
 import { todayISO, yearOf } from '@/domain/dates'
+import { employeeFromDraft, historyEvent, requestFromDraft } from '@/domain/requestFactory'
 import { RULES } from '@/domain/rules'
 import { sortRequests } from '@/domain/requestFilters'
 import { isOngoing, occasionalBalance, unavailableDates } from '@/domain/schedule'
 import { createSeed, isPortalState, type PortalState } from '@/domain/seed'
 import type { Employee, HistoryEvent, RequestDraft, TeleworkRequest } from '@/domain/types'
 import { validateDraft, type ValidationContext, type ValidationError } from '@/domain/validation'
+import { assertCanTransition } from '@/domain/workflow'
 import { createJsonStore, STORAGE_PREFIX } from '@/services/storage'
 
 const portalStorage = createJsonStore<PortalState>(`${STORAGE_PREFIX}:state:v1`, isPortalState)
@@ -31,7 +33,10 @@ export const usePortalStore = defineStore('portal', () => {
     { deep: true, immediate: true },
   )
 
-  const today = computed(() => todayISO(new Date()))
+  // Rafraîchie chaque minute : un onglet resté ouvert après minuit change de jour.
+  const now = ref(new Date())
+  if (typeof window !== 'undefined') window.setInterval(() => (now.value = new Date()), 60_000)
+  const today = computed(() => todayISO(now.value))
   const employees = computed(() => state.value.employees)
   const requests = computed(() => state.value.requests)
 
@@ -78,26 +83,43 @@ export const usePortalStore = defineStore('portal', () => {
     return state.value.requests.find((r) => r.id === id)
   }
 
-  function validationContext(): ValidationContext {
+  /** La personne concernée par la saisie, ou `undefined` pour une personne pas encore enregistrée. */
+  function targetOf(draft: RequestDraft): Employee | undefined {
+    if (draft.onBehalf.kind === 'self') return currentUser.value
+    if (draft.onBehalf.kind === 'member') {
+      return teamMembers.value.find((e) => e.id === draft.onBehalf.employeeId)
+    }
+    return undefined
+  }
+
+  function balanceFor(employee: Employee | undefined) {
+    return employee
+      ? occasionalBalance(state.value.requests, employee.id, Number(yearOf(today.value)))
+      : {
+          allowance: RULES.occasionalAllowancePerYear,
+          pending: 0,
+          available: RULES.occasionalAllowancePerYear,
+        }
+  }
+
+  function bookedDatesFor(employee: Employee | undefined): Set<string> {
+    return employee ? unavailableDates(state.value.requests, employee.id, today.value) : new Set()
+  }
+
+  function validationContext(draft: RequestDraft): ValidationContext {
+    const target = targetOf(draft)
     return {
       today: today.value,
-      availableBalance: balance.value.available,
-      bookedDates: bookedDates.value,
-      charterAlreadyAccepted: charterAccepted.value,
+      availableBalance: balanceFor(target).available,
+      bookedDates: bookedDatesFor(target),
+      // La charte est acceptée par la personne elle-même, pas par son manager.
+      charterAlreadyAccepted: draft.onBehalf.kind === 'self' ? charterAccepted.value : true,
+      knownMatricules: new Set(state.value.employees.map((e) => e.matricule)),
     }
   }
 
   function validate(draft: RequestDraft): ValidationError[] {
-    return validateDraft(draft, validationContext())
-  }
-
-  function event(action: HistoryEvent['action'], comment?: string): HistoryEvent {
-    return {
-      at: new Date().toISOString(),
-      actorId: currentUser.value.id,
-      action,
-      ...(comment ? { comment } : {}),
-    }
+    return validateDraft(draft, validationContext(draft))
   }
 
   /** Lève `ValidationFailedError` si la saisie est invalide. */
@@ -105,27 +127,24 @@ export const usePortalStore = defineStore('portal', () => {
     const errors = validate(draft)
     if (errors.length) throw new ValidationFailedError(errors)
 
-    if (!charterAccepted.value) acceptCharter()
+    const enteredByManager = draft.onBehalf.kind !== 'self'
+    if (!enteredByManager && !charterAccepted.value) acceptCharter()
 
     state.value.sequence += 1
     const sequence = state.value.sequence
-    const isRegular = draft.type === 'regular'
-    const request: TeleworkRequest = {
-      id: `r-${String(sequence).padStart(4, '0')}-${Date.now().toString(36)}`,
-      reference: `TT-${yearOf(today.value)}-${String(sequence).padStart(5, '0')}`,
-      employeeId: currentUser.value.id,
-      type: draft.type,
-      days: isRegular ? [] : [...draft.days].sort((a, b) => a.date.localeCompare(b.date)),
-      weeklySlots: isRegular ? [...draft.weeklySlots].sort((a, b) => a.weekday - b.weekday) : [],
-      startDate: isRegular ? draft.startDate : '',
-      endDate: isRegular ? draft.endDate : '',
-      reason: draft.type === 'exceptional' ? draft.reason : '',
-      comment: draft.comment.trim(),
-      attachment: draft.type === 'exceptional' ? draft.attachment : null,
-      status: 'pending',
-      createdAt: new Date().toISOString(),
-      history: [event('submitted')],
+    let employee = targetOf(draft)
+    if (!employee) {
+      employee = employeeFromDraft(draft, currentUser.value, sequence)
+      state.value.employees.push(employee)
     }
+    const request = requestFromDraft(draft, {
+      sequence,
+      today: today.value,
+      employeeId: employee.id,
+      actorId: currentUser.value.id,
+      defaultCostCenter: currentUser.value.costCenter,
+      enteredByManager,
+    })
     state.value.requests.push(request)
     return request
   }
@@ -137,20 +156,14 @@ export const usePortalStore = defineStore('portal', () => {
   ): TeleworkRequest {
     const request = requestById(id)
     if (!request) throw new Error(`Demande ${id} introuvable`)
-
-    if (action === 'cancelled') {
-      if (request.employeeId !== currentUser.value.id) throw new Error('Action non autorisée')
-      if (!isOngoing(request, today.value))
-        throw new Error('Cette demande ne peut plus être annulée')
-    } else {
-      const author = employeeById(request.employeeId)
-      if (author?.managerId !== currentUser.value.id) throw new Error('Action non autorisée')
-      if (request.status !== 'pending') throw new Error('Cette demande a déjà été traitée')
-      if (action === 'rejected' && !comment?.trim()) throw new Error('Un motif de refus est requis')
-    }
-
+    assertCanTransition(request, action, {
+      actorId: currentUser.value.id,
+      today: today.value,
+      author: employeeById(request.employeeId),
+      comment,
+    })
     request.status = action
-    request.history.push(event(action, comment?.trim()))
+    request.history.push(historyEvent(currentUser.value.id, action, comment?.trim()))
     return request
   }
 
@@ -185,6 +198,9 @@ export const usePortalStore = defineStore('portal', () => {
     teamPending,
     balance,
     bookedDates,
+    targetOf,
+    balanceFor,
+    bookedDatesFor,
     employeeById,
     requestById,
     validate,

@@ -1,5 +1,5 @@
 import type { ISODate } from './dates'
-import { firstDate } from './schedule'
+import { firstDate, hasRhythm } from './schedule'
 import type { TeleworkRequest } from './types'
 
 export type RequestSort = 'recent' | 'oldest' | 'start-asc' | 'start-desc'
@@ -25,12 +25,11 @@ export function isPeriodActive(from: ISODate | '', to: ISODate | ''): boolean {
 
 // Bornes incluses ; `''` = sans borne.
 function touchesPeriod(request: TeleworkRequest, from: ISODate | '', to: ISODate | ''): boolean {
-  if (request.type === 'regular') {
+  if (hasRhythm(request) && request.startDate) {
     // Un rythme régulier court de startDate à endDate, sans fin s'il n'y en a pas.
-    if (!request.startDate) return false
-    if (to && request.startDate > to) return false
-    if (from && request.endDate && request.endDate < from) return false
-    return true
+    const before = Boolean(to && request.startDate > to)
+    const after = Boolean(from && request.endDate && request.endDate < from)
+    if (!before && !after) return true
   }
   return request.days.some((d) => (!from || d.date >= from) && (!to || d.date <= to))
 }

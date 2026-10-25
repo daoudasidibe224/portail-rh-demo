@@ -3,7 +3,7 @@ import { RouterLink } from 'vue-router'
 
 import StatusBadge from '@/components/ui/StatusBadge.vue'
 import { useMediaQuery } from '@/composables/useMediaQuery'
-import { formatDate } from '@/domain/dates'
+import { formatDate } from '@/domain/dateFormat'
 import { describeQuantity, describeSchedule } from '@/domain/format'
 import { REASONS, REQUEST_TYPES } from '@/domain/rules'
 import type { TeleworkRequest } from '@/domain/types'

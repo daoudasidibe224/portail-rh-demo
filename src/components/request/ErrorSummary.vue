@@ -22,13 +22,18 @@ watch(
   },
 )
 
+defineExpose({ focus: () => root.value?.focus() })
+
 function focusField(field: FieldKey) {
   const target = document.getElementById(props.anchors[field])
   const focusable = target?.matches('input, textarea, select, button, [tabindex]')
     ? target
-    : target?.querySelector<HTMLElement>(
+    : (target?.querySelector<HTMLElement>(
+        '[data-reka-calendar-cell-trigger]:not([data-disabled])',
+      ) ??
+      target?.querySelector<HTMLElement>(
         'input:not([type=hidden]), textarea, select, button, [tabindex="0"]',
-      )
+      ))
   target?.scrollIntoView({ block: 'center' })
   focusable?.focus()
 }

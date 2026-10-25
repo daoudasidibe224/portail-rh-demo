@@ -1,12 +1,13 @@
 {
   "name": "portail-rh-teletravail",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
+    "test": "vitest run",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "run-s \"lint:*\"",
@@ -44,6 +45,7 @@
     "typescript": "~6.0.0",
     "vite": "^8.2.2",
     "vite-plugin-vue-devtools": "^8.2.1",
+    "vitest": "^5.0.5",
     "vue-eslint-parser": "^10.4.1",
     "vue-tsc": "^3.3.11"
   },

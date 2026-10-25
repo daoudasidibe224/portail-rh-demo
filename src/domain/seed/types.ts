@@ -14,6 +14,8 @@ type RequestContent = Pick<
 /** Demande telle que décrite dans les données : seuls les champs utiles sont renseignés. */
 export type RequestSeed = Pick<TeleworkRequest, 'employeeId' | 'type' | 'status'> &
   Partial<RequestContent> & {
+    // Manager qui a saisi la demande à la place du collaborateur.
+    enteredBy?: string
     submittedOn: ISODate
     decidedOn?: ISODate
     decisionComment?: string

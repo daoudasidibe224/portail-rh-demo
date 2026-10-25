@@ -30,6 +30,7 @@ export const useDraftStore = defineStore('draft', () => {
       if (!isDirty(value)) {
         draftStorage.clear()
         savedAt.value = null
+        restored.value = false
         return
       }
       savedAt.value = new Date().toISOString()
@@ -47,10 +48,6 @@ export const useDraftStore = defineStore('draft', () => {
 
   function setType(type: RequestType) {
     draft.value.type = type
-    if (type !== 'exceptional') {
-      draft.value.reason = ''
-      draft.value.attachment = null
-    }
   }
 
   return { draft, savedAt, restored, dirty, reset, setType }
@@ -59,6 +56,7 @@ export const useDraftStore = defineStore('draft', () => {
 function isDirty(draft: RequestDraft): boolean {
   const blank = emptyDraft(draft.type)
   return (
+    draft.onBehalf.kind !== 'self' ||
     draft.days.length > 0 ||
     draft.weeklySlots.length > 0 ||
     draft.startDate !== blank.startDate ||

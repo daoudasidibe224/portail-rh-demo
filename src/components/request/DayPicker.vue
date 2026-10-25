@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { parseDate, type DateValue } from '@internationalized/date'
-import { ChevronLeft, ChevronRight, X } from 'lucide-vue-next'
+import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import {
   CalendarCell,
   CalendarCellTrigger,
@@ -17,13 +17,12 @@ import {
 } from 'reka-ui'
 import { computed } from 'vue'
 
-import { formatLong, holidayName, isWeekend, type ISODate } from '@/domain/dates'
-import { formatDays } from '@/domain/format'
-import { countDays } from '@/domain/schedule'
-import type { DayPeriod, RequestedDay } from '@/domain/types'
+import { isWeekend, type ISODate } from '@/domain/dates'
+import { holidayName } from '@/domain/holidays'
+import type { RequestedDay } from '@/domain/types'
 
 import { DEFAULT_PERIOD } from './defaults'
-import PeriodChoice from './PeriodChoice.vue'
+import SelectedDays from './SelectedDays.vue'
 
 const props = defineProps<{
   id: string
@@ -45,8 +44,6 @@ const selection = computed<DateValue[]>({
   },
 })
 
-const sorted = computed(() => [...days.value].sort((a, b) => a.date.localeCompare(b.date)))
-
 const navButtonClass =
   'grid size-10 place-items-center rounded-lg text-ink-700 hover:bg-ink-100 disabled:opacity-40'
 
@@ -58,16 +55,6 @@ function isUnavailable(date: DateValue): boolean {
 function cellHint(iso: ISODate): string | undefined {
   if (props.booked.has(iso)) return 'déjà demandé'
   return holidayName(iso)
-}
-
-function setPeriod(date: ISODate, period: DayPeriod | null) {
-  days.value = days.value.map((d) =>
-    d.date === date ? { ...d, period: period ?? DEFAULT_PERIOD } : d,
-  )
-}
-
-function remove(date: ISODate) {
-  days.value = days.value.filter((d) => d.date !== date)
 }
 </script>
 
@@ -145,46 +132,6 @@ function remove(date: ISODate) {
       </p>
     </div>
 
-    <div>
-      <h3 class="flex items-baseline justify-between text-sm font-semibold text-ink-900">
-        Jours choisis
-        <span class="font-normal text-ink-600">{{ formatDays(countDays(days)) }}</span>
-      </h3>
-      <p
-        v-if="!sorted.length"
-        class="mt-3 rounded-lg border border-dashed border-ink-400 p-6 text-center text-sm text-ink-600"
-      >
-        Choisissez les jours dans le calendrier.
-      </p>
-      <ul v-else class="mt-3 space-y-2">
-        <li
-          v-for="day in sorted"
-          :key="day.date"
-          class="rounded-lg border border-ink-200 bg-white p-3"
-        >
-          <div class="flex items-center justify-between gap-2">
-            <span class="font-medium text-ink-900 first-letter:uppercase">{{
-              formatLong(day.date)
-            }}</span>
-            <button
-              type="button"
-              class="-my-1 grid size-10 place-items-center rounded-lg text-ink-600 hover:bg-ink-100 hover:text-ink-900"
-              :aria-label="`Retirer le ${formatLong(day.date)}`"
-              @click="remove(day.date)"
-            >
-              <X class="size-4" aria-hidden="true" />
-            </button>
-          </div>
-          <PeriodChoice
-            class="mt-2"
-            :model-value="day.period"
-            :legend="`Durée du ${formatLong(day.date)}`"
-            :name="`period-${day.date}`"
-            hide-legend
-            @update:model-value="(p) => setPeriod(day.date, p)"
-          />
-        </li>
-      </ul>
-    </div>
+    <SelectedDays v-model="days" />
   </div>
 </template>

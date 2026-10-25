@@ -1,10 +1,12 @@
 import type { ISODate } from './dates'
 
-export type RequestType = 'occasional' | 'regular' | 'exceptional'
+// `absence` et `unused` existent dans la liste de l'ancien formulaire, mais ne s'envoient pas ici.
+export type RequestType = 'occasional' | 'regular' | 'exceptional' | 'mixed' | 'absence' | 'unused'
 export type RequestStatus = 'pending' | 'approved' | 'rejected' | 'cancelled'
 export type DayPeriod = 'day' | 'am' | 'pm'
 export type Weekday = 1 | 2 | 3 | 4 | 5
-export type ExceptionalReason = 'strike' | 'weather' | 'pollution' | 'health' | 'other'
+export type RequestReason =
+  'personal' | 'professional' | 'strike' | 'weather' | 'works' | 'other' | 'unspecified'
 
 export interface RequestedDay {
   date: ISODate
@@ -17,23 +19,48 @@ export interface WeeklySlot {
   period: DayPeriod
 }
 
-export interface Attachment {
+interface Attachment {
   name: string
   size: number
   type: string
 }
 
+/** Pour qui la demande est faite : soi, un membre de son équipe, ou une personne saisie à la main. */
+export type OnBehalfKind = 'self' | 'member' | 'other'
+
+export interface OnBehalf {
+  kind: OnBehalfKind
+  // Membre choisi, quand `kind` vaut `member`.
+  employeeId: string
+  // Personne saisie à la main, quand `kind` vaut `other`.
+  matricule: string
+  firstName: string
+  lastName: string
+}
+
+export function emptyOnBehalf(kind: OnBehalfKind = 'self'): OnBehalf {
+  return { kind, employeeId: '', matricule: '', firstName: '', lastName: '' }
+}
+
 // Saisie en cours dans le formulaire.
 export interface RequestDraft {
+  // Réservé aux managers ; `self` pour tous les autres.
+  onBehalf: OnBehalf
   type: RequestType
   days: RequestedDay[]
   weeklySlots: WeeklySlot[]
   startDate: ISODate | ''
   endDate: ISODate | ''
-  reason: ExceptionalReason | ''
+  reason: RequestReason | ''
+  // Vide : le centre de coût du demandeur.
+  costCenter: string
   comment: string
   attachment: Attachment | null
   charterAccepted: boolean
+  // Attestation d'une connexion stable au domicile, demandée à chaque envoi.
+  connectionConfirmed: boolean
+  // Accord pour que le service RH recontacte le demandeur au sujet de la demande.
+  recontactAllowed: boolean
 }
 
 export interface HistoryEvent {
@@ -52,9 +79,12 @@ export interface TeleworkRequest {
   weeklySlots: WeeklySlot[]
   startDate: ISODate | ''
   endDate: ISODate | ''
-  reason: ExceptionalReason | ''
+  reason: RequestReason | ''
   comment: string
   attachment: Attachment | null
+  // Absents des demandes enregistrées avant l'ajout de ces champs.
+  costCenter?: string
+  recontactAllowed?: boolean
   status: RequestStatus
   createdAt: string
   history: HistoryEvent[]
@@ -75,15 +105,19 @@ export interface Employee {
 
 export function emptyDraft(type: RequestType = 'occasional'): RequestDraft {
   return {
+    onBehalf: emptyOnBehalf(),
     type,
     days: [],
     weeklySlots: [],
     startDate: '',
     endDate: '',
     reason: '',
+    costCenter: '',
     comment: '',
     attachment: null,
     charterAccepted: false,
+    connectionConfirmed: false,
+    recontactAllowed: false,
   }
 }
 

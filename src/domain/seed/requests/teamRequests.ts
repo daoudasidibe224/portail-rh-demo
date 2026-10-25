@@ -1,4 +1,5 @@
-import { addBusinessDays, addDays } from '../../dates'
+import { addBusinessDays } from '../../businessDays'
+import { addDays } from '../../dates'
 import { days, type SeedCalendar } from '../calendar'
 import type { RequestSeed } from '../types'
 
@@ -59,6 +60,32 @@ export function teamRequestSeeds({ today, year, nextMonday }: SeedCalendar): Req
       startDate: `${year}-05-04`,
       submittedOn: `${year}-04-14`,
       decidedOn: `${year}-04-15`,
+    },
+    // Saisie par Camille pour Léo : validée tout de suite.
+    {
+      employeeId: 'e-leo',
+      type: 'occasional',
+      status: 'approved',
+      reason: 'professional',
+      days: days([addDays(nextMonday, 10)]),
+      comment: 'Convenu en réunion d’équipe : intervention chez un client en télétravail.',
+      enteredBy: 'e-camille',
+      submittedOn: addDays(today, -3),
+      decidedOn: addDays(today, -3),
+    },
+    // Télétravail mixte sur dérogation : un rythme fixe et un jour ponctuel.
+    {
+      employeeId: 'e-ines',
+      type: 'mixed',
+      status: 'approved',
+      reason: 'professional',
+      weeklySlots: [{ weekday: 3, period: 'am' }],
+      startDate: `${year}-06-01`,
+      days: days([addDays(nextMonday, 3)]),
+      comment:
+        'Dérogation accordée : le mercredi matin en continu, plus un jour de formation à distance.',
+      submittedOn: `${year}-05-18`,
+      decidedOn: `${year}-05-20`,
     },
   ]
 }

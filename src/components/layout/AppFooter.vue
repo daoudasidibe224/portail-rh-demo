@@ -5,6 +5,7 @@ import { RouterLink, useRouter } from 'vue-router'
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue'
 import { useToast } from '@/composables/useToast'
 import { CONTACT } from '@/domain/contact'
+import pkg from '../../../package.json'
 import { useDraftStore } from '@/stores/draft'
 import { usePortalStore } from '@/stores/portal'
 
@@ -14,8 +15,10 @@ const router = useRouter()
 const { show } = useToast()
 const confirmReset = ref(false)
 const year = new Date().getFullYear()
+const { version } = pkg
 
 const links = [
+  { to: '/contact', label: 'Contact' },
   { to: '/plan-du-site', label: 'Plan du site' },
   { to: '/mentions-legales', label: 'Mentions légales' },
   { to: '/accessibilite', label: 'Accessibilité : partiellement conforme' },
@@ -62,7 +65,7 @@ function reset() {
           Réinitialiser la démo
         </button>
       </div>
-      <p>© {{ year }} Portail RH, projet de démonstration</p>
+      <p>© {{ year }} Portail RH, projet de démonstration · version {{ version }}</p>
     </div>
     <ConfirmDialog
       v-model:open="confirmReset"

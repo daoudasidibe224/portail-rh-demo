@@ -3,15 +3,9 @@ import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import { computed, ref } from 'vue'
 
 import IconButton from '@/components/ui/IconButton.vue'
-import {
-  addDays,
-  formatDayMonth,
-  holidayName,
-  isoWeekNumber,
-  parseISO,
-  startOfWeek,
-  type ISODate,
-} from '@/domain/dates'
+import { addDays, isoWeekNumber, parseISO, startOfWeek, type ISODate } from '@/domain/dates'
+import { holidayName } from '@/domain/holidays'
+import { formatDayMonth } from '@/domain/dateFormat'
 import { PERIODS } from '@/domain/rules'
 import { entryFor } from '@/domain/schedule'
 import type { TeleworkRequest } from '@/domain/types'

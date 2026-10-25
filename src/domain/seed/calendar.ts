@@ -1,4 +1,5 @@
-import { addDays, isBusinessDay, nextBusinessDay, startOfWeek, type ISODate } from '../dates'
+import { addDays, startOfWeek, type ISODate } from '../dates'
+import { isBusinessDay, nextBusinessDay } from '../businessDays'
 import type { DayPeriod, RequestedDay } from '../types'
 
 const DEFAULT_TIME = '09:12'

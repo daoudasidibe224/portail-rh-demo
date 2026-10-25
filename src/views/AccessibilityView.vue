@@ -29,12 +29,15 @@ const heading = usePageHeading()
       <h2 id="tests-title" class="text-xl font-semibold">Comment nous avons testé</h2>
       <ul class="list-disc space-y-1 pl-6">
         <li>
-          axe-core (règles WCAG 2.2 A et AA) sur chaque écran, dans les tests de bout en bout.
+          axe-core (règles WCAG), lancé à la main sur les trois étapes de la demande et sur leurs
+          messages d’erreur.
         </li>
-        <li>Parcours complet au clavier seul, sans souris.</li>
-        <li>Contrastes des couleurs vérifiés automatiquement à partir des design tokens.</li>
-        <li>Affichage à 320 px de large sans défilement horizontal.</li>
-        <li>Lecteurs d’écran visés : NVDA avec Firefox, VoiceOver avec Safari.</li>
+        <li>Parcours de la demande au clavier : étapes, listes, dialogues et retour du focus.</li>
+        <li>Affichage à 390 px de large sans défilement horizontal sur le parcours de demande.</li>
+        <li>
+          Lecteurs d’écran visés : NVDA avec Firefox, VoiceOver avec Safari. Aucun test n’a encore
+          été fait avec eux.
+        </li>
       </ul>
     </section>
 

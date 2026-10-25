@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { formatFull } from '@/domain/dates'
+import { formatFull } from '@/domain/dateFormat'
 import { NEWS_CATEGORIES } from '@/domain/news'
 import type { NewsArticle } from '@/domain/types'
 

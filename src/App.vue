@@ -5,6 +5,7 @@ import { RouterView } from 'vue-router'
 import AppBreadcrumb from '@/components/layout/AppBreadcrumb.vue'
 import AppFooter from '@/components/layout/AppFooter.vue'
 import AppHeader from '@/components/layout/AppHeader.vue'
+import AppNotice from '@/components/layout/AppNotice.vue'
 import AppToaster from '@/components/ui/AppToaster.vue'
 import { usePortalStore } from '@/stores/portal'
 
@@ -33,6 +34,7 @@ const portal = usePortalStore()
 
     <div class="flex min-h-dvh flex-col">
       <AppHeader />
+      <AppNotice />
       <p
         v-if="portal.persistenceError"
         role="alert"

@@ -21,11 +21,12 @@ export function buildRequest(
   year: number,
   employees: readonly Employee[],
 ): TeleworkRequest {
-  const { submittedOn, decidedOn, decisionComment, ...content } = seed
+  const { submittedOn, decidedOn, decisionComment, enteredBy, ...content } = seed
   const submission: HistoryEvent = {
     at: timestamp(submittedOn),
-    actorId: seed.employeeId,
+    actorId: enteredBy ?? seed.employeeId,
     action: 'submitted',
+    ...(enteredBy ? { comment: 'Saisie par le manager' } : {}),
   }
   const decision: HistoryEvent | null =
     seed.status !== 'pending' && decidedOn
