@@ -1,0 +1,301 @@
+@import 'tailwindcss';
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-sans/700.css';
+@import '@fontsource/ibm-plex-sans-condensed/600.css';
+@import '@fontsource/ibm-plex-sans-condensed/700.css';
+
+/* Design tokens. Palette Tailwind désactivée. */
+@theme {
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-brand-50: #fdf3f3;
+  --color-brand-100: #fbe4e5;
+  --color-brand-600: #cd1e25;
+  --color-brand-700: #a9171d;
+  --color-brand-800: #861317;
+
+  --color-ink-50: #f5f5f5;
+  --color-ink-100: #ebebeb;
+  --color-ink-200: #dcdcdc;
+  --color-ink-400: #767676;
+  --color-ink-600: #545454;
+  --color-ink-700: #3d3d3d;
+  --color-ink-900: #1f1f1f;
+
+  --color-success-50: #eef7f1;
+  --color-success-700: #17713b;
+  --color-warning-50: #fdf6e9;
+  --color-warning-700: #8a4b05;
+  --color-info-50: #eef3fc;
+  --color-info-700: #1f4fbf;
+
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-condensed: 'IBM Plex Sans Condensed', 'IBM Plex Sans', ui-sans-serif, sans-serif;
+
+  /* `rounded-md` ramené à 4 px comme `rounded`. */
+  --radius-md: 0.25rem;
+}
+
+/* Durées et courbes d'animation. `static` : lues par var(), aucune classe ne les nomme. */
+@theme static {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  /* Notification qui glisse depuis un bord. */
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  /* `ease-in` démarre lentement : on retire l'utilitaire. */
+  --ease-in: initial;
+
+  --duration-press: 120ms;
+  --duration-color: 150ms;
+  --duration-enter: 200ms;
+  /* Sortie plus courte que l'entrée. */
+  --duration-exit: 150ms;
+
+  --default-transition-duration: 150ms;
+  --default-transition-timing-function: ease;
+}
+
+@layer base {
+  html {
+    @apply bg-ink-50 text-ink-900 antialiased;
+    font-variant-numeric: tabular-nums;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply min-h-dvh;
+  }
+
+  /* Focus visible commun. */
+  :focus-visible {
+    outline: 3px solid var(--color-info-700);
+    outline-offset: 2px;
+  }
+
+  [tabindex='-1']:focus {
+    outline: none;
+  }
+
+  /* Titres équilibrés, pas de mot orphelin en fin de paragraphe. */
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  h1 {
+    letter-spacing: -0.01em;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  /* `scale` est séparé de `transform` : il ne gêne pas les translations Tailwind. */
+  button,
+  [role='button'] {
+    transition-property: color, background-color, border-color, scale;
+    transition-duration: var(--duration-press);
+    transition-timing-function: var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  button:not(:disabled):active,
+  [role='button']:not([aria-disabled='true'], [data-disabled], [data-unavailable]):active {
+    scale: 0.97;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Hors couche pour passer devant `transition-colors` : le focus clavier n'est jamais animé. */
+:focus-visible {
+  transition-property: none;
+}
+
+/* Panneau. */
+@utility card {
+  @apply rounded-xl border border-ink-200 bg-white shadow-[0_1px_2px_rgb(0_0_0/0.04)];
+}
+
+/* Tableau rayé. */
+@utility zebra {
+  & tbody tr:nth-child(even) {
+    @apply bg-ink-50;
+  }
+  & tbody tr:hover,
+  & tbody tr[data-selected='true'] {
+    @apply bg-ink-100;
+  }
+  & tbody tr {
+    transition-property: background-color;
+    transition-duration: var(--duration-color);
+  }
+}
+
+@utility field-input {
+  @apply block w-full rounded-lg border border-ink-400 bg-white px-3.5 py-2.5 text-base text-ink-900 placeholder:text-ink-600;
+  @apply hover:border-ink-600 aria-invalid:border-brand-700 aria-invalid:ring-1 aria-invalid:ring-brand-700;
+}
+
+/* Liste déroulante native, flèche dessinée. */
+@utility field-select {
+  @apply block w-full cursor-pointer appearance-none rounded-lg border border-ink-400 bg-white py-2.5 pr-9 pl-3.5 text-base text-ink-900 hover:border-ink-600;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%233d3d3d' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+}
+
+@utility field-label {
+  @apply block text-sm font-medium text-ink-900;
+}
+
+@utility check {
+  @apply size-5 accent-ink-900;
+}
+
+@utility link-quiet {
+  @apply underline decoration-ink-400 underline-offset-2 hover:decoration-ink-900;
+}
+
+@utility link-action {
+  @apply font-semibold text-brand-700 underline underline-offset-2 hover:text-brand-800;
+}
+
+/* Contrôle segmenté. */
+@utility segmented {
+  @apply inline-flex gap-1 rounded-xl bg-ink-100 p-1;
+}
+@utility segmented-item {
+  @apply inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-lg px-4 text-sm font-medium text-ink-700 hover:text-ink-900;
+  transition-property: background-color, color;
+  transition-duration: var(--duration-color);
+  &[data-state='active'],
+  &[aria-pressed='true'] {
+    @apply bg-ink-900 font-semibold text-white shadow-[0_1px_2px_rgb(0_0_0/0.25)];
+  }
+}
+
+/* Retour à l'appui pour un lien habillé en bouton ; les `<button>` l'ont par la couche base. */
+@utility press {
+  transition-property: color, background-color, border-color, scale;
+  transition-duration: var(--duration-press);
+  transition-timing-function: var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+
+  &:not(:disabled):active {
+    scale: 0.97;
+  }
+}
+
+/* Reka UI attend la fin d'une animation CSS avant de retirer l'élément. */
+@keyframes motion-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes motion-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes motion-pop-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
+@keyframes motion-pop-out {
+  to {
+    opacity: 0;
+    scale: 0.98;
+  }
+}
+
+/* 100 % + 1 rem : largeur de la notification plus le retrait du conteneur. */
+@keyframes motion-slide-in-right {
+  from {
+    translate: calc(100% + 1rem) 0;
+  }
+}
+
+@keyframes motion-slide-out-right {
+  to {
+    translate: calc(100% + 1rem) 0;
+  }
+}
+
+@keyframes motion-swipe-out-right {
+  from {
+    translate: var(--reka-toast-swipe-end-x) 0;
+  }
+  to {
+    translate: calc(100% + 1rem) 0;
+  }
+}
+
+@utility dialog-overlay {
+  @apply fixed inset-0 z-40 bg-ink-900/50;
+
+  &[data-state='open'] {
+    animation: motion-fade-in var(--duration-enter) var(--ease-out);
+  }
+
+  &[data-state='closed'] {
+    animation: motion-fade-out var(--duration-exit) var(--ease-out) forwards;
+  }
+}
+
+/* La hauteur et la largeur maximales restent au composant. */
+@utility dialog-panel {
+  @apply fixed top-1/2 left-1/2 z-50 w-[calc(100vw-2rem)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-xl bg-white p-5 shadow-xl sm:p-6;
+
+  &[data-state='open'] {
+    animation: motion-pop-in var(--duration-enter) var(--ease-out);
+  }
+
+  &[data-state='closed'] {
+    animation: motion-pop-out var(--duration-exit) var(--ease-out) forwards;
+  }
+}
+
+/* Reka UI ne fournit que les variables du balayage : la notification les applique ici. */
+@utility toast-item {
+  &[data-state='open'] {
+    animation: motion-slide-in-right var(--duration-enter) var(--ease-drawer);
+  }
+
+  &[data-state='closed'] {
+    animation: motion-slide-out-right var(--duration-exit) var(--ease-out) forwards;
+  }
+
+  &[data-swipe='move'] {
+    translate: var(--reka-toast-swipe-move-x) 0;
+  }
+
+  &[data-swipe='cancel'] {
+    translate: 0 0;
+    transition: translate var(--duration-exit) var(--ease-out);
+  }
+
+  &[data-swipe='end'] {
+    animation: motion-swipe-out-right var(--duration-exit) var(--ease-out) forwards;
+  }
+}
