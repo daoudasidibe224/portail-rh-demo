@@ -74,7 +74,7 @@ src/
 
 Les dépendances vont dans un seul sens : `views` et `components` utilisent `stores` et `composables`, qui s'appuient sur `domain` et `services`. Le domaine n'importe rien de Vue ni du navigateur. Les fichiers inutilisés, les exports orphelins et les dépendances en trop sont contrôlés avec `npx knip`.
 
-Les règles viennent de l'ancien formulaire (délai de 14 jours pour le régulier, 8 jours occasionnels par an, journée de 7 h 24, réponse sous 15 jours ouvrés, justificatif PDF de 200 Ko, charte v5) et sont regroupées dans `src/domain/rules.ts`. Elles viennent de l'ancien portail et restent à confirmer avec les RH.
+Les règles viennent de l'ancien formulaire (délai de 14 jours pour le régulier, 8 jours occasionnels par an, journée de 7 h 24, réponse sous 15 jours ouvrés, justificatif PDF de 200 Ko, charte v5) et sont regroupées dans `src/domain/rules.ts`.
 
 ## Correspondance avec l'ancien formulaire TT-07b
 
@@ -96,8 +96,5 @@ Remplacé : le matricule, le nom, le prénom et le code manager sont connus du p
 
 - Pas de serveur : pas d'authentification, pas d'e-mail, le justificatif n'est pas envoyé (seuls son nom et sa taille sont gardés). Un back-end porterait l'authentification, les notifications et le stockage des pièces.
 - Les services RH autres que le télétravail sont des démonstrations.
-- Les règles viennent de l'ancien portail et restent à confirmer avec les RH : journée de 7 h 24, réponse sous 15 jours ouvrés, 8 jours occasionnels par an.
 - Le périmètre est volontairement réduit : pas d'annulation, de filtres, d'export ni de planning d'équipe.
 - Le texte de la charte v4 n'est pas repris : seule la v5 est en vigueur.
-- Les tests couvrent les règles métier (validation, solde, planning, données de démonstration), pas l'interface. Des tests de bout en bout, avec axe-core, seraient la suite logique.
-- Aucun test avec un lecteur d'écran n'a été fait.

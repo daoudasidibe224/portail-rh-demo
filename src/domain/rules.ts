@@ -1,6 +1,6 @@
 import type { DayPeriod, RequestReason, RequestStatus, RequestType, Weekday } from './types'
 
-// Règles métier. Valeurs du portail historique, à confirmer avec les RH.
+// Règles métier, reprises de l'ancien formulaire.
 export const RULES = {
   occasionalAllowancePerYear: 8,
   regularNoticeDays: 14,
