@@ -29,8 +29,6 @@ interface RequestTypeInfo {
   choiceLabel: string
   description: string
   rule: string
-  // Proposé dans la liste mais non sélectionnable.
-  disabled?: boolean
 }
 
 export const REQUEST_TYPES: Record<RequestType, RequestTypeInfo> = {
@@ -61,7 +59,6 @@ export const REQUEST_TYPES: Record<RequestType, RequestTypeInfo> = {
     choiceLabel: 'TTX – Ne pas utiliser',
     description: 'Ce type est conservé dans la liste mais ne doit pas être utilisé.',
     rule: '',
-    disabled: true,
   },
   absence: {
     code: '',
@@ -118,12 +115,12 @@ export const REASON_ORDER: RequestReason[] = [
 ]
 
 // Centres de coût de l'ancien formulaire (celui du demandeur est présélectionné).
-export const COST_CENTERS: { value: string; label: string; disabled?: boolean }[] = [
+export const COST_CENTERS: { value: string; label: string }[] = [
   { value: 'CC-1001-PAR-A', label: 'CC-1001-PAR-A' },
   { value: 'CC-1001-PAR-B', label: 'CC-1001-PAR-B' },
   { value: 'CC-1002-LYO', label: 'CC-1002-LYO' },
   { value: 'CC-1002-LYO-BIS', label: 'CC-1002-LYO-BIS' },
-  { value: 'CC-9999', label: 'CC-9999 (ne pas utiliser)', disabled: true },
+  { value: 'CC-9999', label: 'CC-9999 (ne pas utiliser)' },
 ]
 
 // Durée proposée par défaut pour un jour choisi.

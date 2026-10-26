@@ -28,12 +28,7 @@ const info = computed(() => REQUEST_TYPES[model.value])
       class="field-input mt-1.5"
     >
       <option value="" disabled>-- Veuillez choisir un type --</option>
-      <option
-        v-for="type in REQUEST_TYPE_ORDER"
-        :key="type"
-        :value="type"
-        :disabled="REQUEST_TYPES[type].disabled"
-      >
+      <option v-for="type in REQUEST_TYPE_ORDER" :key="type" :value="type">
         {{ REQUEST_TYPES[type].choiceLabel }}
       </option>
     </select>

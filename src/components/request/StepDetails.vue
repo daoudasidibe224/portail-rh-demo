@@ -41,12 +41,7 @@ const { fieldErrors, invalid, describedBy } = useFieldState(() => props.errors)
       <label for="cost-center" class="field-label">Centre de coût</label>
       <select id="cost-center" v-model="drafts.draft.costCenter" class="field-input mt-1.5">
         <option value="" disabled>-- Sélectionner --</option>
-        <option
-          v-for="center in COST_CENTERS"
-          :key="center.value"
-          :value="center.value"
-          :disabled="center.disabled"
-        >
+        <option v-for="center in COST_CENTERS" :key="center.value" :value="center.value">
           {{ center.label }}
         </option>
       </select>

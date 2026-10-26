@@ -37,7 +37,7 @@ L'ancien formulaire TT-07b demande sept étapes, une vingtaine de champs et des 
 | Sept étapes, une vingtaine de champs affichés d'un coup, sans aperçu du résultat                                     | Trois étapes courtes, un récapitulatif toujours visible, une vérification finale. Un jour de télétravail se pose en deux clics depuis l'accueil. |
 | Matricule, nom, manager et centre de coût à ressaisir, avec un code manager à six chiffres à chercher sur l'intranet | Ces informations sont connues du portail et affichées. Seul le centre de coût peut être changé.                                                  |
 | Dates au format AAAA/JJ/MM, durée en centièmes de jour, date de fin calculée par un bouton                           | Calendrier, demi-journées par jour, durée en jours et en heures calculée en direct.                                                              |
-| Codes 41, 42, 43, « TTX ne pas utiliser », motifs en double                                                          | Trois types avec leur règle écrite sous le nom. Le code RH reste visible sur la demande.                                                         |
+| Codes 41, 42, 43, « TTX ne pas utiliser », motifs en double                                                          | Mêmes choix, avec la règle du type écrite sous la liste. Le code RH reste visible sur la demande.                                                |
 | Erreur unique « ERR_TT_042 », sans champ désigné                                                                     | Message sous chaque champ, résumé en haut avec un lien vers chaque erreur.                                                                       |
 | Boutons de confirmation inversés, « Effacer tout » sans confirmation, session de cinq minutes qui efface la saisie   | Confirmations claires, brouillon enregistré à chaque modification, rien ne s'efface seul.                                                        |
 | Cases en double négation, lettre RH obligatoire, commentaire de 200 caractères minimum pour 50 autorisés             | Cases formulées simplement, parmi les cases, seules l'attestation de connexion et la charte sont obligatoires, aucune limite contradictoire.     |
@@ -80,7 +80,7 @@ Les règles viennent de l'ancien formulaire (délai de 14 jours pour le régulie
 
 Les listes de choix sont identiques à celles de l'ancien formulaire : les six types (TTR, TTO, TTE, TTX, ABS, TTR+TTO), les sept motifs et les cinq centres de coût, avec les mêmes libellés et le même ordre.
 
-- **TTX « Ne pas utiliser »** et **CC-9999 (ne pas utiliser)** restent visibles mais ne se choisissent pas.
+- **TTX « Ne pas utiliser »** et **CC-9999 (ne pas utiliser)** se choisissent comme dans l'ancien formulaire. TTX est refusé à l'envoi avec un message clair.
 - **ABS** explique que ce n'est pas du télétravail et renvoie vers « Absences diverses ».
 - **TTR+TTO (mixte)** demande un rythme hebdomadaire et des jours ponctuels, et un message qui explique la dérogation. Les jours ponctuels sont décomptés du solde.
 - **Motif** obligatoire pour tous les types ; « Autre (préciser dans le commentaire) » rend le message obligatoire.
