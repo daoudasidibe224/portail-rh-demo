@@ -9,7 +9,7 @@ npm run dev
 
 Node 22.18 ou 24.12 minimum. L'application s'ouvre sur http://localhost:5173. Le lien « Réinitialiser la démo » en bas de page remet les données de départ.
 
-Autres commandes : `npm test`, `npm run build`, `npm run lint`.
+Autres commandes : `npm run build`, `npm run lint`.
 
 ## Choix techniques
 
@@ -26,7 +26,6 @@ Autres commandes : `npm test`, `npm run build`, `npm run lint`.
 src/
   lib/          règles métier sans Vue (listes, validation, solde, dates)
     seed/       données de démonstration
-    __tests__/  tests des règles
   services/     accès au navigateur (localStorage)
   stores/       état partagé : demandes et collaborateurs, brouillon
   composables/  logique du formulaire : étapes, envoi, préremplissage
