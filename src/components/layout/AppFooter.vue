@@ -65,7 +65,7 @@ function reset() {
           Réinitialiser la démo
         </button>
       </div>
-      <p>© {{ year }} Portail RH, projet de démonstration · version {{ version }}</p>
+      <p>© {{ year }} Portail RH, projet de démonstration, version {{ version }}</p>
     </div>
     <ConfirmDialog
       v-model:open="confirmReset"

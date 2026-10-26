@@ -16,7 +16,7 @@ defineEmits<{ go: [index: number] }>()
     <!-- Téléphone : une ligne de texte et une fine barre. -->
     <div class="sm:hidden">
       <p class="text-sm font-medium text-ink-700">
-        Étape {{ current + 1 }} sur {{ REQUEST_STEPS.length }} · {{ REQUEST_STEPS[current]?.short }}
+        Étape {{ current + 1 }} sur {{ REQUEST_STEPS.length }} : {{ REQUEST_STEPS[current]?.short }}
       </p>
       <div class="mt-1 flex gap-1">
         <template v-for="(step, index) in REQUEST_STEPS" :key="step.id">

@@ -33,7 +33,7 @@ defineEmits<{ approve: [request: TeleworkRequest]; reject: [request: TeleworkReq
         </RouterLink>
         <p class="text-sm text-ink-700">{{ describeType(request) }}</p>
         <p class="mt-0.5 text-sm text-ink-900 first-letter:uppercase">
-          {{ describeSchedule(request) }} · {{ describeQuantity(request) }}
+          {{ describeSchedule(request) }}, {{ describeQuantity(request) }}
         </p>
         <p v-if="request.comment" class="mt-0.5 text-sm text-ink-600">{{ request.comment }}</p>
       </div>

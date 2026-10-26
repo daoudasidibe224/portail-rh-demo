@@ -15,7 +15,7 @@ const wide = useMediaQuery('(min-width: 48rem)')
 
 function typeLine(request: TeleworkRequest): string {
   const type = REQUEST_TYPES[request.type].label
-  return request.reason ? `${type} · ${REASONS[request.reason]}` : type
+  return request.reason ? `${type}, ${REASONS[request.reason].toLowerCase()}` : type
 }
 
 function sentOn(request: TeleworkRequest): string {
@@ -71,7 +71,7 @@ function sentOn(request: TeleworkRequest): string {
       </div>
       <p class="text-sm text-ink-600">{{ typeLine(r) }}</p>
       <p class="mt-0.5 text-sm text-ink-600">
-        {{ describeQuantity(r) }} · envoyée le {{ sentOn(r) }}
+        {{ describeQuantity(r) }}, envoyée le {{ sentOn(r) }}
       </p>
     </li>
   </ul>

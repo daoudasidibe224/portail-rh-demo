@@ -6,7 +6,7 @@ const SIX_MONTHS_IN_DAYS = 182
 
 function myRequestSeeds({ today, year, previousMonday, nextMonday }: SeedCalendar): RequestSeed[] {
   return [
-    // Camille : régulier le mercredi, 3,5 j occasionnels validés, 1 j en attente → 3,5 j disponibles.
+    // Camille : régulier le mercredi, 3,5 j occasionnels validés, 1 j en attente, soit 3,5 j disponibles.
     {
       employeeId: 'e-camille',
       type: 'regular',

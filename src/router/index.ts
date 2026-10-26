@@ -14,7 +14,7 @@ declare module 'vue-router' {
 
 const APP_NAME = 'Portail RH'
 
-export const documentTitle = (title: string) => `${title} – ${APP_NAME}`
+export const documentTitle = (title: string) => `${title} - ${APP_NAME}`
 
 const routes: RouteRecordRaw[] = [
   { path: '/', name: 'home', component: HomeView, meta: { title: 'Accueil', section: 'home' } },
