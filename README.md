@@ -2,7 +2,7 @@
 
 Nouvelle version de l'interface de demande de télétravail (formulaire TT-07b de l'ancien portail RH). L'ancien formulaire demandait sept étapes et une vingtaine de champs. Ici, un jour de télétravail se pose en deux clics depuis l'accueil, et un manager valide une demande en un clic.
 
-Maquette Figma : https://www.figma.com/design/pMdBtB4FklCsKyJ4YPGPar
+Maquette Figma (état initial, antérieur aux dernières évolutions) : https://www.figma.com/design/pMdBtB4FklCsKyJ4YPGPar
 
 ## Lancer le projet
 
@@ -64,10 +64,10 @@ src/
                 création des demandes et règles de décision
     seed/       données de démonstration
     __tests__/  tests des règles (Vitest)
-  services/     accès au navigateur : localStorage, téléchargement de fichiers
+  services/     accès au navigateur : localStorage
   stores/       état partagé : portal (collaborateurs, demandes), draft (brouillon), preferences
-  composables/  logique d'interface réutilisable : étapes, envoi, préremplissage, équipe, liste de demandes
-  components/   ui, layout, request (formulaire en étapes), team, dashboard, detail, home, news, directory
+  composables/  logique d'interface : parcours en étapes, envoi, préremplissage, récapitulatif, personne concernée, actions sur le brouillon, détail d'une demande, titre de page, notifications
+  components/   ui, layout (en-tête, bandeau, pied de page), request (formulaire en étapes), team, dashboard, detail, home, news, directory
   views/        une vue par page, limitée à l'assemblage des composants et des composables
   router/       routes
 ```
