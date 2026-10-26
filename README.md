@@ -9,7 +9,7 @@ npm run dev
 
 Node 22.18 ou 24.12 minimum. L'application s'ouvre sur http://localhost:5173. Le lien « Réinitialiser la démo » en bas de page remet les données de départ.
 
-Autres commandes : `npm test`, `npm run build`, `npm run type-check`, `npm run lint`.
+Autres commandes : `npm test`, `npm run build`, `npm run lint`.
 
 ## Choix techniques
 
@@ -35,4 +35,4 @@ src/
   router/       routes
 ```
 
-Les vues et les composants utilisent les stores et les composables, qui s'appuient sur `lib` et `services`. `lib` n'importe rien de Vue ni du navigateur.
+Les vues et les composants utilisent les stores et les composables, qui s'appuient sur `lib` et `services`.
