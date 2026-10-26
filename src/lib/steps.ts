@@ -22,7 +22,7 @@ export const REQUEST_STEPS: readonly RequestStep[] = [
     id: 'details',
     title: 'Précisions',
     short: 'Précisions',
-    hint: 'Motif, centre de coût, message et justificatif.',
+    hint: 'Motif, centre de coût, commentaire et justificatif.',
     fields: ['reason', 'comment', 'attachment'],
   },
   {

@@ -59,7 +59,7 @@ const ARTICLES: NewsArticle[] = [
     body: [
       `Pour un télétravail régulier, la demande doit être faite au moins ${RULES.regularNoticeDays} jours avant le premier jour concerné.`,
       'Le portail vérifie ce délai avant l’envoi de la demande.',
-      'Pour un besoin ponctuel, préférez une demande occasionnelle.',
+      'Pour un besoin ponctuel, préférez le télétravail occasionnel.',
     ],
     link: { label: 'Demander un télétravail régulier', to: '/demandes/nouvelle?type=regular' },
   },
@@ -77,12 +77,12 @@ const ARTICLES: NewsArticle[] = [
   {
     slug: 'bulletins-de-paie-dematerialises',
     title: 'Vos bulletins de paie sont dématérialisés',
-    summary: 'Retrouvez vos bulletins au format PDF dans la rubrique « Ma paie ».',
+    summary: 'Retrouvez vos bulletins au format PDF dans « Mes bulletins ».',
     publishedAt: '2026-06-15',
     category: 'paie',
     body: [
-      'Les bulletins de paie sont désormais disponibles au format numérique. Vous les téléchargez en PDF depuis la rubrique « Ma paie ».',
-      'Vous pouvez les télécharger à tout moment, sans rien demander aux RH.',
+      'Les bulletins de paie sont désormais disponibles au format numérique. Vous les téléchargez en PDF depuis « Mes bulletins ».',
+      'Ils restent disponibles à tout moment, sans rien demander aux RH.',
     ],
   },
 ]

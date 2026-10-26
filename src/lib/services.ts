@@ -11,7 +11,7 @@ const HR_SERVICE_GROUPS: Record<HrServiceGroup, { label: string }> = {
 const HR_SERVICES: HrService[] = [
   {
     slug: 'bulletins-de-paie',
-    label: 'Mes bulletins de paie',
+    label: 'Mes bulletins',
     description: 'Télécharger vos bulletins au format PDF',
     group: 'paie',
   },
@@ -36,13 +36,13 @@ const HR_SERVICES: HrService[] = [
   },
   {
     slug: 'conges-payes',
-    label: 'Congés payés',
+    label: 'Mes congés payés',
     description: 'Poser vos congés et consulter votre solde',
     group: 'absences',
   },
   {
     slug: 'rtt',
-    label: 'RTT',
+    label: 'Mes RTT',
     description: 'Poser vos jours de RTT et consulter votre solde',
     group: 'absences',
   },

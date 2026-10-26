@@ -16,7 +16,7 @@ const next = computed(() => nextTeleworkDay(portal.requests, portal.currentUser.
 <template>
   <dl class="grid grid-cols-2 gap-3 sm:grid-cols-3">
     <div class="card px-4 py-3 sm:px-5 sm:py-4">
-      <dt class="text-sm text-ink-600">Solde occasionnel {{ yearOf(portal.today) }}</dt>
+      <dt class="text-sm text-ink-600">Solde occasionnel disponible {{ yearOf(portal.today) }}</dt>
       <dd class="mt-1 text-ink-900">
         <strong class="text-2xl font-semibold">{{ formatDays(portal.balance.available) }}</strong>
         <span class="text-ink-700"> sur {{ portal.balance.allowance }}</span>
@@ -30,7 +30,7 @@ const next = computed(() => nextTeleworkDay(portal.requests, portal.currentUser.
       </dd>
     </div>
     <div class="card px-4 py-3 sm:px-5 sm:py-4">
-      <dt class="text-sm text-ink-600">Prochain jour à distance</dt>
+      <dt class="text-sm text-ink-600">Prochain jour de télétravail</dt>
       <dd class="mt-1 text-ink-900 first-letter:uppercase">
         <template v-if="next">
           <strong class="text-2xl font-semibold">{{ formatLong(next.date) }}</strong>
@@ -49,7 +49,7 @@ const next = computed(() => nextTeleworkDay(portal.requests, portal.currentUser.
           {{
             portal.teamPending.length
               ? `${portal.teamPending.length} ${plural(portal.teamPending.length, 'demande')} à valider`
-              : 'Voir le planning'
+              : 'Voir mon équipe'
           }}
         </RouterLink>
       </dd>

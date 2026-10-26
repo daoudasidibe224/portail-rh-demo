@@ -117,7 +117,7 @@ const charterOpen = ref(false)
     <label v-if="!forOther" class="flex min-h-10 cursor-pointer items-start gap-3">
       <input v-model="newsletter" type="checkbox" class="check mt-2.5 shrink-0" />
       <span class="py-2 text-sm text-ink-900">
-        Recevoir la lettre RH mensuelle.
+        Recevoir la newsletter RH mensuelle.
         <span class="text-ink-600">(facultatif, modifiable dans les actualités)</span>
       </span>
     </label>

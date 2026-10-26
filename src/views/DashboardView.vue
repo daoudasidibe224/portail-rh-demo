@@ -27,7 +27,7 @@ const heading = usePageHeading()
             class="inline-flex min-h-10 items-center gap-1.5 text-sm text-ink-700 underline underline-offset-2 hover:text-ink-900"
           >
             <BookOpen class="size-4" aria-hidden="true" />
-            Lire la charte du télétravail
+            Lire la charte télétravail
           </RouterLink>
         </p>
       </div>

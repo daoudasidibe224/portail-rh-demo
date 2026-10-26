@@ -31,9 +31,9 @@ const showDays = computed(() => type.value !== 'regular')
 const showRhythm = computed(() => type.value === 'regular' || type.value === 'mixed')
 const datesTitle = computed(() =>
   type.value === 'regular'
-    ? 'Rythme et période'
+    ? 'Répartition et période'
     : type.value === 'mixed'
-      ? 'Jours occasionnels et rythme régulier'
+      ? 'Jours choisis et répartition'
       : 'Dates',
 )
 const earliestRegularStart = computed(() => addDays(portal.today, RULES.regularNoticeDays))
@@ -101,7 +101,7 @@ const earliestRegularStart = computed(() => addDays(portal.today, RULES.regularN
               Date de fin <span class="font-normal text-ink-600">(facultatif)</span>
             </label>
             <p id="end-hint" class="mt-0.5 text-sm text-ink-600">
-              Sans date de fin, le rythme continue
+              Sans date de fin, la répartition continue
             </p>
             <input
               :id="anchors.endDate"

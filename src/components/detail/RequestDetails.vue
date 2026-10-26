@@ -10,15 +10,15 @@ defineProps<{ request: TeleworkRequest }>()
 
 <template>
   <section aria-labelledby="details-title" class="card mt-6 p-5 sm:p-6">
-    <h2 id="details-title" class="sr-only">Détails</h2>
+    <h2 id="details-title" class="sr-only">Détails de la demande</h2>
     <dl class="grid gap-4 sm:grid-cols-2">
       <div class="sm:col-span-2">
         <dt class="text-sm text-ink-600">
           {{
             request.type === 'regular'
-              ? 'Rythme'
+              ? 'Répartition'
               : request.type === 'mixed'
-                ? 'Rythme et dates'
+                ? 'Répartition et dates'
                 : 'Dates'
           }}
         </dt>
@@ -27,11 +27,11 @@ defineProps<{ request: TeleworkRequest }>()
         </dd>
       </div>
       <div>
-        <dt class="text-sm text-ink-600">Durée</dt>
+        <dt class="text-sm text-ink-600">Nombre de jours</dt>
         <dd class="mt-0.5 font-medium text-ink-900">{{ describeQuantity(request) }}</dd>
       </div>
       <div>
-        <dt class="text-sm text-ink-600">Code RH</dt>
+        <dt class="text-sm text-ink-600">Code du type de demande</dt>
         <dd class="mt-0.5 font-medium text-ink-900">{{ REQUEST_TYPES[request.type].code }}</dd>
       </div>
       <div v-if="request.reason">
@@ -49,7 +49,7 @@ defineProps<{ request: TeleworkRequest }>()
         </dd>
       </div>
       <div v-if="request.comment" class="sm:col-span-2">
-        <dt class="text-sm text-ink-600">Message</dt>
+        <dt class="text-sm text-ink-600">Commentaire</dt>
         <dd class="mt-0.5 break-words text-ink-900">{{ request.comment }}</dd>
       </div>
       <div v-if="request.attachment" class="sm:col-span-2">

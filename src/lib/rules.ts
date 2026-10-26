@@ -22,7 +22,7 @@ export const ATTACHMENT_TYPE = 'application/pdf'
 export const ATTACHMENT_LABEL = 'PDF'
 
 interface RequestTypeInfo {
-  // Code de l'ancien portail, gardé pour le rapprochement côté RH.
+  // Code du type de demande dans l'ancien formulaire (41, 42 ou 43).
   code: string
   label: string
   // Libellé de la liste de choix, identique à l'ancien formulaire.
@@ -71,7 +71,7 @@ export const REQUEST_TYPES: Record<RequestType, RequestTypeInfo> = {
     code: '41 + 42',
     label: 'Mixte',
     choiceLabel: 'TTR+TTO – Mixte (sur dérogation)',
-    description: 'Un rythme régulier et des jours occasionnels dans la même demande.',
+    description: 'Une répartition régulière et des jours occasionnels dans la même demande.',
     rule: 'Sur dérogation. Les jours occasionnels sont décomptés du solde.',
   },
 }
@@ -123,7 +123,7 @@ export const COST_CENTERS: { value: string; label: string }[] = [
   { value: 'CC-9999', label: 'CC-9999 (ne pas utiliser)' },
 ]
 
-// Durée proposée par défaut pour un jour choisi.
+// Période proposée par défaut pour un jour choisi.
 export const DEFAULT_PERIOD: DayPeriod = 'day'
 
 export const PERIODS: Record<DayPeriod, { label: string; short: string; weight: number }> = {

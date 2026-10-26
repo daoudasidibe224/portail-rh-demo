@@ -23,7 +23,7 @@ defineExpose({ focus: () => title.value?.focus() })
     </div>
     <AppButton :to="{ name: 'new-request', query: { pour: 'membre' } }">
       <UserPlus class="size-4" aria-hidden="true" />
-      Ajouter un télétravail pour un membre
+      Faire une demande pour un membre de l’équipe
     </AppButton>
   </div>
 </template>

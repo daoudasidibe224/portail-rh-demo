@@ -55,7 +55,7 @@ function submitQuick() {
   try {
     const request = portal.submit(quickDraft.value)
     show('Demande envoyée', {
-      description: `${portal.manager ? fullName(portal.manager) : 'Votre manager'} a reçu la demande. Réf. ${request.reference}.`,
+      description: `${portal.manager ? fullName(portal.manager) : 'Votre manager'} a reçu la demande. Référence ${request.reference}.`,
     })
   } catch (error) {
     show('La demande n’a pas pu être envoyée', {
@@ -86,7 +86,7 @@ function submitQuick() {
       confirm-label="Envoyer la demande"
       @confirm="submitQuick"
     >
-      <PeriodChoice v-model="quickChoice" class="mt-4" legend="Durée" name="quick-period" />
+      <PeriodChoice v-model="quickChoice" class="mt-4" legend="Répartition" name="quick-period" />
       <p class="mt-3 text-sm text-ink-700">
         Solde après la demande : <strong>{{ formatDays(Math.max(0, balanceAfter)) }}</strong>
       </p>

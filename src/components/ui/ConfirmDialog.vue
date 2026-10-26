@@ -27,7 +27,7 @@ const props = withDefaults(
   }>(),
   {
     description: undefined,
-    cancelLabel: 'Retour',
+    cancelLabel: 'Annuler',
     tone: 'primary',
     commentLabel: undefined,
     commentRequired: false,
@@ -51,7 +51,7 @@ watch(open, (value) => {
 
 function confirm() {
   if (props.commentRequired && !comment.value.trim()) {
-    error.value = 'Ce champ est obligatoire : il sera transmis au collaborateur.'
+    error.value = 'Indiquez un motif : il sera transmis au collaborateur.'
     commentField.value?.focus()
     return
   }

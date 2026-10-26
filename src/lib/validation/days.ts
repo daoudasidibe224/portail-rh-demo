@@ -31,7 +31,7 @@ export function validateDays(draft: RequestDraft, ctx: ValidationContext, add: A
     if (requested > ctx.availableBalance) {
       add(
         'days',
-        `Cette demande compte ${formatDays(requested)} mais il vous reste ${formatDays(ctx.availableBalance)} : retirez ${formatDays(requested - ctx.availableBalance)} ou passez par une demande exceptionnelle si elle est justifiée.`,
+        `Cette demande compte ${formatDays(requested)} mais votre solde disponible est de ${formatDays(ctx.availableBalance)} : retirez ${formatDays(requested - ctx.availableBalance)} ou faites une demande de télétravail exceptionnel si votre situation le justifie.`,
       )
     }
   }

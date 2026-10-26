@@ -23,9 +23,9 @@ Autres commandes : `npm test` (règles métier, avec Vitest), `npm run build`, `
 - **Mon télétravail** : solde, prochain jour à distance, liste des demandes.
 - **Nouvelle demande** : trois étapes courtes. 1. Type et dates (calendrier ou rythme hebdomadaire). 2. Précisions (motif, centre de coût, message, justificatif). 3. Vérification et envoi (récapitulatif, planning prévisionnel par semaine, engagements : charte, connexion stable, recontact RH, lettre RH). Chaque étape est validée en la quittant, on peut revenir en arrière sans rien perdre. Une confirmation récapitule la demande avant l'envoi. Le récapitulatif montre la durée (en jours et en heures) et le solde restant. Le brouillon est enregistré au fil de la saisie.
 - **Détail d'une demande** : récapitulatif, délai de réponse annoncé, et Valider ou Refuser pour le manager.
-- **Mon équipe** (manager) : liste des demandes à valider (Valider, Refuser avec un motif). Le bouton « Ajouter un télétravail pour un membre » ouvre le formulaire avec un choix « Pour qui ? » : soi, ou un membre de l'équipe (la liste propose aussi une personne saisie à la main : matricule, prénom, nom, qui rejoint alors l'équipe). La demande d'un manager est validée à l'envoi.
+- **Mon équipe** (manager) : liste des demandes à valider (Valider, Refuser avec un motif). Le bouton « Faire une demande pour un membre de l'équipe » ouvre le formulaire avec un choix « Pour qui ? » : soi, ou un membre de l'équipe (la liste propose aussi une personne saisie à la main : matricule, prénom, nom, qui rejoint alors l'équipe). La demande d'un manager est validée à l'envoi.
 - **Actualités, annuaire, charte du télétravail, contact, plan du site, mentions légales, déclaration d'accessibilité.**
-- **Bandeau d'information** sous l'en-tête (délai de 14 jours du télétravail régulier), refermable et mémorisé dans le navigateur. La version de l'application est affichée en pied de page.
+- **Bandeau d'information** sous l'en-tête (délai de 14 jours du télétravail régulier). La version de l'application est affichée en pied de page.
 - **Services RH** (bulletins, congés, mutuelle…) : pages de démonstration, sans contenu réel.
 
 ## Vision et choix d'ergonomie
@@ -37,7 +37,7 @@ L'ancien formulaire TT-07b demande sept étapes, une vingtaine de champs et des 
 | Sept étapes, une vingtaine de champs affichés d'un coup, sans aperçu du résultat                                     | Trois étapes courtes, un récapitulatif toujours visible, une vérification finale. Un jour de télétravail se pose en deux clics depuis l'accueil. |
 | Matricule, nom, manager et centre de coût à ressaisir, avec un code manager à six chiffres à chercher sur l'intranet | Ces informations sont connues du portail et affichées. Seul le centre de coût peut être changé.                                                  |
 | Dates au format AAAA/JJ/MM, durée en centièmes de jour, date de fin calculée par un bouton                           | Calendrier, demi-journées par jour, durée en jours et en heures calculée en direct.                                                              |
-| Codes 41, 42, 43, « TTX ne pas utiliser », motifs en double                                                          | Mêmes choix, avec la règle du type écrite sous la liste. Le code RH reste visible sur la demande.                                                |
+| Codes 41, 42, 43, « TTX ne pas utiliser », motifs en double                                                          | Mêmes choix, avec la règle du type écrite sous la liste. Le code du type de demande reste visible sur la demande.                                |
 | Erreur unique « ERR_TT_042 », sans champ désigné                                                                     | Message sous chaque champ, résumé en haut avec un lien vers chaque erreur.                                                                       |
 | Boutons de confirmation inversés, « Effacer tout » sans confirmation, session de cinq minutes qui efface la saisie   | Confirmations claires, brouillon enregistré à chaque modification, rien ne s'efface seul.                                                        |
 | Cases en double négation, lettre RH obligatoire, commentaire de 200 caractères minimum pour 50 autorisés             | Cases formulées simplement, parmi les cases, seules l'attestation de connexion et la charte sont obligatoires, aucune limite contradictoire.     |
@@ -65,7 +65,7 @@ src/
     seed/       données de démonstration
     __tests__/  tests des règles (Vitest)
   services/     accès au navigateur : localStorage
-  stores/       état partagé : portal (collaborateurs, demandes), draft (brouillon), preferences
+  stores/       état partagé : portal (collaborateurs, demandes), draft (brouillon)
   composables/  logique d'interface : parcours en étapes, envoi, préremplissage, récapitulatif, personne concernée, actions sur le brouillon, détail d'une demande, titre de page, notifications
   components/   ui, layout (en-tête, bandeau, pied de page), request (formulaire en étapes), team, dashboard, detail, home, news, directory
   views/        une vue par page, limitée à l'assemblage des composants et des composables

@@ -11,7 +11,7 @@ defineProps<{ managerName: string | null }>()
   >
     <CircleCheck class="mt-0.5 size-5 shrink-0" aria-hidden="true" />
     <p>
-      <strong>Votre demande est envoyée.</strong>
+      <strong>Votre demande a été transmise.</strong>
       {{ managerName ?? 'Votre manager' }} a reçu la demande et vous recevrez sa réponse sur ce
       portail.
     </p>

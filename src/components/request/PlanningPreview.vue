@@ -14,7 +14,7 @@ const props = defineProps<{
 const WEEKDAY_LABELS = ['Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.']
 
 const CELL: Record<PlanningKind, { label: string; cls: string }> = {
-  office: { label: 'Sur site', cls: 'bg-white text-ink-600' },
+  office: { label: 'Présentiel', cls: 'bg-white text-ink-600' },
   draft: { label: 'Demandé', cls: 'bg-info-50 font-semibold text-info-700' },
   remote: { label: 'Télétravail', cls: 'bg-success-50 font-semibold text-success-700' },
   pending: { label: 'En attente', cls: 'bg-warning-50 font-semibold text-warning-700' },

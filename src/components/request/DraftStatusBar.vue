@@ -23,10 +23,10 @@ const linkClass =
           : 'Rien à enregistrer pour l’instant.'
       }}
     </span>
-    <button type="button" :class="linkClass" @click="$emit('leave')">Abandonner la demande</button>
+    <button type="button" :class="linkClass" @click="$emit('leave')">Annuler la demande</button>
     <button v-if="drafts.dirty" type="button" :class="linkClass" @click="$emit('reset')">
       <RotateCcw class="size-4" aria-hidden="true" />
-      Repartir de zéro
+      Effacer tout
     </button>
     <button v-if="isLast" type="button" :class="linkClass" @click="$emit('print')">
       <Printer class="size-4" aria-hidden="true" />

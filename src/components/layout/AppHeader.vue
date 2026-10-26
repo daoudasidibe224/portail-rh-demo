@@ -14,7 +14,7 @@ type Section = NonNullable<typeof route.meta.section>
 const links = computed<{ to: string; label: string; short?: string; section: Section }[]>(() => [
   { to: '/', label: 'Accueil', section: 'home' },
   { to: '/teletravail', label: 'Mon télétravail', short: 'Télétravail', section: 'telework' },
-  { to: '/actualites', label: 'Actualités', section: 'news' },
+  { to: '/actualites', label: 'Actualités RH', short: 'Actualités', section: 'news' },
   ...(portal.teamMembers.length
     ? [{ to: '/equipe', label: 'Mon équipe', short: 'Équipe', section: 'team' as const }]
     : []),

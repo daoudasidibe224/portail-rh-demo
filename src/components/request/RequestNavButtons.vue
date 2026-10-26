@@ -19,7 +19,7 @@ defineEmits<{ back: []; cancel: [] }>()
         <Send class="size-4" aria-hidden="true" />
         Envoyer la demande
       </template>
-      <template v-else>Continuer</template>
+      <template v-else>Étape suivante</template>
     </AppButton>
   </div>
 </template>

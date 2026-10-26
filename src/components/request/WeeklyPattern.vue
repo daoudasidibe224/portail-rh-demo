@@ -25,7 +25,7 @@ function setPeriod(weekday: Weekday, period: DayPeriod | null) {
 <template>
   <fieldset :id="id" :aria-describedby="describedBy" class="min-w-0">
     <legend class="mb-2 text-sm font-semibold text-ink-900">
-      Jours de télétravail chaque semaine
+      Répartition hebdomadaire
       <span class="font-normal text-ink-600">({{ formatDays(countWeeklyDays(slots)) }})</span>
     </legend>
     <ul

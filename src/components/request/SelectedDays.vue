@@ -11,7 +11,7 @@ import type { DayPeriod, RequestedDay } from '@/lib/types'
 import { DEFAULT_PERIOD } from '@/lib/rules'
 import PeriodChoice from './PeriodChoice.vue'
 
-// Jours choisis dans le calendrier, avec la durée de chacun (journée, matin, après-midi).
+// Jours choisis dans le calendrier, avec la répartition de chacun (journée, matin, après-midi).
 const days = defineModel<RequestedDay[]>({ required: true })
 
 const sorted = computed(() => [...days.value].sort((a, b) => a.date.localeCompare(b.date)))
@@ -61,7 +61,7 @@ function remove(date: ISODate) {
         <PeriodChoice
           class="mt-2"
           :model-value="day.period"
-          :legend="`Durée du ${formatLong(day.date)}`"
+          :legend="`Répartition du ${formatLong(day.date)}`"
           :name="`period-${day.date}`"
           hide-legend
           @update:model-value="(p) => setPeriod(day.date, p)"

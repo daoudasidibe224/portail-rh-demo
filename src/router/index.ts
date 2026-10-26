@@ -28,7 +28,7 @@ const routes: RouteRecordRaw[] = [
     path: '/teletravail/charte',
     name: 'charter',
     component: () => import('@/views/CharterView.vue'),
-    meta: { title: 'Charte du télétravail', parent: 'dashboard', section: 'telework' },
+    meta: { title: 'Charte télétravail', parent: 'dashboard', section: 'telework' },
   },
   {
     path: '/demandes/nouvelle',

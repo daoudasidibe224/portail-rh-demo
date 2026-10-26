@@ -29,9 +29,9 @@ const cancelOpen = defineModel<boolean>('cancelOpen', { required: true })
   />
   <ConfirmDialog
     v-model:open="cancelOpen"
-    title="Abandonner cette demande ?"
+    title="Annuler cette demande ?"
     description="Votre brouillon sera supprimé. Cette action est définitive."
-    confirm-label="Abandonner"
+    confirm-label="Annuler la demande"
     cancel-label="Continuer la saisie"
     tone="danger"
     @confirm="$emit('discard')"

@@ -37,7 +37,7 @@ usePageTitle(() => article.value?.title ?? 'Article introuvable')
     <p>
       <RouterLink to="/actualites" class="link-action inline-flex min-h-10 items-center gap-1.5">
         <ArrowLeft class="size-4" aria-hidden="true" />
-        Toutes les actualités
+        Toutes les actualités RH
       </RouterLink>
     </p>
   </article>
@@ -45,8 +45,8 @@ usePageTitle(() => article.value?.title ?? 'Article introuvable')
   <div v-else class="max-w-prose space-y-4">
     <PageTitle ref="heading">Article introuvable</PageTitle>
     <p class="text-ink-700">
-      Cet article n’existe pas ou a été retiré. Retrouvez les autres dans la liste des actualités.
+      Cet article n’existe pas ou a été retiré. Retrouvez les autres dans les actualités RH.
     </p>
-    <AppButton variant="secondary" to="/actualites">Voir les actualités</AppButton>
+    <AppButton variant="secondary" to="/actualites">Voir les actualités RH</AppButton>
   </div>
 </template>

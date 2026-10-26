@@ -17,5 +17,5 @@ export function assertCanTransition(
 ): void {
   if (author?.managerId !== actorId) throw new Error('Action non autorisée')
   if (request.status !== 'pending') throw new Error('Cette demande a déjà été traitée')
-  if (action === 'rejected' && !comment?.trim()) throw new Error('Un motif de refus est requis')
+  if (action === 'rejected' && !comment?.trim()) throw new Error('Indiquez le motif du refus')
 }

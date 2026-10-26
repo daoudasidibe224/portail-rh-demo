@@ -23,7 +23,7 @@ const { barTitle, barDetail, overBalance } = useRequestSummary()
       @click="$emit('back')"
     >
       <ArrowLeft class="size-5" aria-hidden="true" />
-      <span class="sr-only">Étape précédente</span>
+      <span class="sr-only">Retour</span>
     </button>
     <p class="min-w-0 flex-1 text-sm leading-snug text-ink-700">
       <span class="block font-semibold text-ink-900">{{ barTitle }}</span>
@@ -36,7 +36,7 @@ const { barTitle, barDetail, overBalance } = useRequestSummary()
         <Send class="size-4 shrink-0" aria-hidden="true" />
         Envoyer
       </template>
-      <template v-else>Continuer</template>
+      <template v-else>Étape suivante</template>
     </AppButton>
   </div>
 </template>

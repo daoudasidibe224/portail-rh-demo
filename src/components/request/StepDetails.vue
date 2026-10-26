@@ -49,7 +49,7 @@ const { fieldErrors, invalid, describedBy } = useFieldState(() => props.errors)
 
     <div>
       <label :for="anchors.comment" class="field-label">
-        Message pour {{ portal.manager ? portal.manager.firstName : 'votre manager' }}
+        Commentaire pour {{ portal.manager ? portal.manager.firstName : 'votre manager' }}
         <span class="font-normal text-ink-600">
           ({{ drafts.draft.reason === 'other' ? 'obligatoire' : 'facultatif' }})
         </span>

@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { useToast } from '@/composables/useToast'
 import { useDraftStore } from '@/stores/draft'
 
-/** Abandonner, repartir de zéro et imprimer : les actions sur le brouillon en cours. */
+/** Annuler la demande, tout effacer et imprimer : les actions sur le brouillon en cours. */
 export function useDraftActions(restart: () => void, focusHeading: () => void) {
   const drafts = useDraftStore()
   const router = useRouter()

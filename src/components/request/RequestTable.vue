@@ -34,7 +34,7 @@ function sentOn(request: TeleworkRequest): string {
       <thead>
         <tr class="border-b border-ink-200 bg-ink-50 text-ink-600">
           <th scope="col" class="px-4 py-2 font-medium sm:px-5">Demande</th>
-          <th scope="col" class="px-3 py-2 font-medium">Durée</th>
+          <th scope="col" class="px-3 py-2 font-medium">Nombre de jours</th>
           <th scope="col" class="px-3 py-2 font-medium">Envoyée le</th>
           <th scope="col" class="px-4 py-2 font-medium sm:px-5">Statut</th>
         </tr>

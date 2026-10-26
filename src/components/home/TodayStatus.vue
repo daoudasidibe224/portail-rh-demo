@@ -59,7 +59,7 @@ const next = computed(() =>
       </dd>
     </div>
     <div class="px-4 py-4 sm:px-5">
-      <dt class="text-sm text-ink-600">Prochain jour à distance</dt>
+      <dt class="text-sm text-ink-600">Prochain jour de télétravail</dt>
       <dd class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-ink-900">
         <template v-if="next">
           <span class="font-semibold first-letter:uppercase">

@@ -30,13 +30,17 @@ const costCenter = computed(() => draft.value.costCenter || person.value.costCen
 <template>
   <dl class="grid gap-x-6 gap-y-3 text-sm" :class="detailed ? 'sm:grid-cols-2' : ''">
     <div>
-      <dt class="text-ink-600">Type</dt>
+      <dt class="text-ink-600">Type de demande</dt>
       <dd class="font-medium text-ink-900">{{ REQUEST_TYPES[draft.type].label }}</dd>
     </div>
     <div :class="detailed ? 'sm:col-span-2' : ''">
       <dt class="text-ink-600">
         {{
-          draft.type === 'regular' ? 'Rythme' : draft.type === 'mixed' ? 'Rythme et dates' : 'Dates'
+          draft.type === 'regular'
+            ? 'Répartition'
+            : draft.type === 'mixed'
+              ? 'Répartition et dates'
+              : 'Dates'
         }}
       </dt>
       <dd class="font-medium text-ink-900 first-letter:uppercase">
@@ -44,7 +48,7 @@ const costCenter = computed(() => draft.value.costCenter || person.value.costCen
       </dd>
     </div>
     <div>
-      <dt class="text-ink-600">Durée</dt>
+      <dt class="text-ink-600">Nombre de jours</dt>
       <dd class="font-medium text-ink-900">
         {{ describeQuantity(draft) }}
         <span v-if="requestedHours" class="font-normal text-ink-700">({{ requestedHours }})</span>
@@ -95,7 +99,7 @@ const costCenter = computed(() => draft.value.costCenter || person.value.costCen
         </dd>
       </div>
       <div v-if="draft.comment.trim()" class="sm:col-span-2">
-        <dt class="text-ink-600">Message</dt>
+        <dt class="text-ink-600">Commentaire</dt>
         <dd class="break-words whitespace-pre-line text-ink-900">{{ draft.comment.trim() }}</dd>
       </div>
     </template>

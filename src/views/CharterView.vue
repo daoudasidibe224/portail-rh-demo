@@ -31,7 +31,7 @@ async function accept() {
 <template>
   <article class="max-w-3xl space-y-6">
     <header>
-      <PageTitle ref="heading">Charte du télétravail</PageTitle>
+      <PageTitle ref="heading">Charte télétravail</PageTitle>
       <p class="mt-1 text-ink-600">Version {{ RULES.charterVersion }}</p>
       <p class="mt-1 text-sm text-ink-600">
         La version {{ RULES.previousCharterVersion }} n’est plus en vigueur : seule la version

@@ -8,7 +8,7 @@ withDefaults(
     name: string
     /** Légende masquée visuellement mais lue par les lecteurs d'écran. */
     hideLegend?: boolean
-    /** Option supplémentaire « Sur site » (rythme régulier). */
+    /** Option supplémentaire « Présentiel » (rythme régulier). */
     allowNone?: boolean
   }>(),
   { hideLegend: false, allowNone: false },
@@ -16,7 +16,7 @@ withDefaults(
 const model = defineModel<DayPeriod | null>({ required: true })
 
 const options = (allowNone: boolean) => [
-  ...(allowNone ? [{ value: null, label: 'Sur site' }] : []),
+  ...(allowNone ? [{ value: null, label: 'Présentiel' }] : []),
   ...(Object.keys(PERIODS) as DayPeriod[]).map((value) => ({ value, label: PERIODS[value].label })),
 ]
 </script>

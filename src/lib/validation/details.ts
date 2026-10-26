@@ -3,7 +3,7 @@ import { ATTACHMENT_LABEL, ATTACHMENT_TYPE, RULES } from '../rules'
 import type { RequestDraft } from '../types'
 import type { Add, ValidationContext } from './types'
 
-/** Motif, message et justificatif. */
+/** Motif, commentaire et justificatif. */
 export function validateDetails(draft: RequestDraft, add: Add) {
   if (!draft.reason) add('reason', 'Choisissez le motif de votre demande.')
   if (draft.reason === 'other' && !draft.comment.trim()) {

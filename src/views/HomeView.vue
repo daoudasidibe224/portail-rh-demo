@@ -56,12 +56,12 @@ const pendingCount = computed(() => portal.teamPending.length)
     <div class="grid items-start gap-8 lg:grid-cols-[3fr_2fr]">
       <section aria-labelledby="news-title" class="space-y-3">
         <div class="flex min-h-10 flex-wrap items-center justify-between gap-x-4 gap-y-1">
-          <h2 id="news-title" class="text-xl font-semibold text-ink-900">Actualités</h2>
+          <h2 id="news-title" class="text-xl font-semibold text-ink-900">Actualités RH</h2>
           <RouterLink
             to="/actualites"
             class="link-action inline-flex min-h-10 items-center gap-1.5"
           >
-            Toutes les actualités
+            Toutes les actualités RH
             <ArrowRight class="size-4" aria-hidden="true" />
           </RouterLink>
         </div>

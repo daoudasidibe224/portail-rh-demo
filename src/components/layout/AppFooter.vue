@@ -21,7 +21,7 @@ const links = [
   { to: '/contact', label: 'Contact' },
   { to: '/plan-du-site', label: 'Plan du site' },
   { to: '/mentions-legales', label: 'Mentions légales' },
-  { to: '/accessibilite', label: 'Accessibilité : partiellement conforme' },
+  { to: '/accessibilite', label: 'Accessibilité' },
 ]
 
 function reset() {
@@ -45,7 +45,7 @@ function reset() {
         ou {{ CONTACT.phone }}, {{ CONTACT.hours }}.
       </p>
       <div class="flex flex-wrap items-center gap-x-5 gap-y-1">
-        <nav aria-label="Informations légales et aide">
+        <nav aria-label="Informations légales et contact">
           <ul class="flex flex-wrap items-center gap-x-5 gap-y-1">
             <li v-for="link in links" :key="link.to">
               <RouterLink

@@ -125,8 +125,7 @@ function cellHint(iso: ISODate): string | undefined {
         </CalendarGrid>
       </CalendarRoot>
       <p class="mt-2 text-sm text-ink-600">
-        Flèches pour se déplacer, Entrée pour choisir. Les jours barrés sont fériés, en week-end ou
-        déjà demandés.
+        Flèches pour se déplacer, Entrée pour choisir. Les jours barrés sont fériés ou en week-end.
       </p>
     </div>
 
