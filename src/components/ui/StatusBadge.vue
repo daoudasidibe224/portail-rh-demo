@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { STATUSES } from '@/domain/rules'
-import type { RequestStatus } from '@/domain/types'
+import { STATUSES } from '@/lib/rules'
+import type { RequestStatus } from '@/lib/types'
 
 const props = defineProps<{ status: RequestStatus }>()
 

@@ -8,7 +8,7 @@ import AppButton from '@/components/ui/AppButton.vue'
 import PageTitle from '@/components/ui/PageTitle.vue'
 import { usePageHeading } from '@/composables/usePageHeading'
 import { usePageTitle } from '@/composables/usePageTitle'
-import { newsBySlug } from '@/domain/news'
+import { newsBySlug } from '@/lib/news'
 
 const props = defineProps<{ slug: string }>()
 const heading = usePageHeading()

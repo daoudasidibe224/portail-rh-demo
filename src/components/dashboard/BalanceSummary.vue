@@ -2,11 +2,11 @@
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 
-import { yearOf } from '@/domain/dates'
-import { formatLong } from '@/domain/dateFormat'
-import { formatDays, formatHours, plural } from '@/domain/format'
-import { PERIODS } from '@/domain/rules'
-import { nextTeleworkDay } from '@/domain/schedule'
+import { yearOf } from '@/lib/dates'
+import { formatLong } from '@/lib/dateFormat'
+import { formatDays, formatHours, plural } from '@/lib/format'
+import { PERIODS } from '@/lib/rules'
+import { nextTeleworkDay } from '@/lib/schedule'
 import { usePortalStore } from '@/stores/portal'
 
 const portal = usePortalStore()

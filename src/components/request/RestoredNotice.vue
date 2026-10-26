@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Info } from 'lucide-vue-next'
 
-import { formatDateTime } from '@/domain/dateFormat'
+import { formatDateTime } from '@/lib/dateFormat'
 import { useDraftStore } from '@/stores/draft'
 
 const drafts = useDraftStore()

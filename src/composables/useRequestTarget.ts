@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 
-import { fullName } from '@/domain/types'
+import { fullName } from '@/lib/types'
 import { useDraftStore } from '@/stores/draft'
 import { usePortalStore } from '@/stores/portal'
 

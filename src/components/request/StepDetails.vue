@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import AttachmentField from '@/components/request/AttachmentField.vue'
 import FieldError from '@/components/request/FieldError.vue'
-import { COST_CENTERS, REASONS, REASON_ORDER } from '@/domain/rules'
-import type { ValidationError } from '@/domain/validation'
+import { COST_CENTERS, REASONS, REASON_ORDER } from '@/lib/rules'
+import type { ValidationError } from '@/lib/validation'
 import { useDraftStore } from '@/stores/draft'
 import { usePortalStore } from '@/stores/portal'
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RULES } from '@/domain/rules'
+import { RULES } from '@/lib/rules'
 </script>
 
 <template>

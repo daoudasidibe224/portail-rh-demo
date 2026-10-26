@@ -4,7 +4,7 @@ import { RouterLink, useRoute, useRouter } from 'vue-router'
 
 import PageTitle from '@/components/ui/PageTitle.vue'
 import { usePageHeading } from '@/composables/usePageHeading'
-import { servicePath, servicesByGroup } from '@/domain/services'
+import { servicePath, servicesByGroup } from '@/lib/services'
 
 interface SitemapNode {
   name: string

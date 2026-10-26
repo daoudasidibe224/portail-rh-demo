@@ -17,11 +17,11 @@ import {
 } from 'reka-ui'
 import { computed } from 'vue'
 
-import { isWeekend, type ISODate } from '@/domain/dates'
-import { holidayName } from '@/domain/workdays'
-import type { RequestedDay } from '@/domain/types'
+import { isWeekend, type ISODate } from '@/lib/dates'
+import { holidayName } from '@/lib/workdays'
+import type { RequestedDay } from '@/lib/types'
 
-import { DEFAULT_PERIOD } from '@/domain/rules'
+import { DEFAULT_PERIOD } from '@/lib/rules'
 import SelectedDays from './SelectedDays.vue'
 
 defineProps<{

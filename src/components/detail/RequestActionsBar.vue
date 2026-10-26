@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 import AppButton from '@/components/ui/AppButton.vue'
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue'
-import type { TeleworkRequest } from '@/domain/types'
+import type { TeleworkRequest } from '@/lib/types'
 
 defineProps<{ request: TeleworkRequest }>()
 const emit = defineEmits<{ approve: []; reject: [comment: string] }>()

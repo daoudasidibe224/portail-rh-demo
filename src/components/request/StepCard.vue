@@ -4,8 +4,8 @@ import { ref } from 'vue'
 import StepDetails from '@/components/request/StepDetails.vue'
 import StepReview from '@/components/request/StepReview.vue'
 import StepWhen from '@/components/request/StepWhen.vue'
-import { REQUEST_STEPS } from '@/domain/steps'
-import type { ValidationError } from '@/domain/validation'
+import { REQUEST_STEPS } from '@/lib/steps'
+import type { ValidationError } from '@/lib/validation'
 
 defineProps<{
   step: number

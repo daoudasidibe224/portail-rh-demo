@@ -2,7 +2,7 @@
 import { RouterLink } from 'vue-router'
 
 import NewsMeta from '@/components/news/NewsMeta.vue'
-import type { NewsArticle } from '@/domain/types'
+import type { NewsArticle } from '@/lib/types'
 
 /** `compact` : titre et date seulement, pour l'accueil. */
 withDefaults(defineProps<{ article: NewsArticle; level?: 2 | 3; compact?: boolean }>(), {

@@ -6,8 +6,8 @@ import EmployeeCard from '@/components/directory/EmployeeCard.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import PageTitle from '@/components/ui/PageTitle.vue'
 import { usePageHeading } from '@/composables/usePageHeading'
-import { searchDirectory } from '@/domain/directory'
-import { plural } from '@/domain/format'
+import { searchDirectory } from '@/lib/directory'
+import { plural } from '@/lib/format'
 import { usePortalStore } from '@/stores/portal'
 
 const portal = usePortalStore()

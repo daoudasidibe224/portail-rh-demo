@@ -3,7 +3,7 @@ import NewsListItem from '@/components/news/NewsListItem.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import PageTitle from '@/components/ui/PageTitle.vue'
 import { usePageHeading } from '@/composables/usePageHeading'
-import { NEWS } from '@/domain/news'
+import { NEWS } from '@/lib/news'
 
 const heading = usePageHeading()
 </script>

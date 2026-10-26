@@ -7,8 +7,8 @@ import AppButton from '@/components/ui/AppButton.vue'
 import PageTitle from '@/components/ui/PageTitle.vue'
 import { usePageHeading } from '@/composables/usePageHeading'
 import { useToast } from '@/composables/useToast'
-import { formatDateTime } from '@/domain/dateFormat'
-import { RULES } from '@/domain/rules'
+import { formatDateTime } from '@/lib/dateFormat'
+import { RULES } from '@/lib/rules'
 import { usePortalStore } from '@/stores/portal'
 
 const portal = usePortalStore()

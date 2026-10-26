@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Check, ChevronRight } from 'lucide-vue-next'
 
-import { REQUEST_STEPS } from '@/domain/steps'
+import { REQUEST_STEPS } from '@/lib/steps'
 
 defineProps<{
   current: number

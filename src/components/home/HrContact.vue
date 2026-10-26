@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CONTACT } from '@/domain/contact'
+import { CONTACT } from '@/lib/contact'
 </script>
 
 <template>

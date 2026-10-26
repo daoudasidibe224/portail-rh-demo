@@ -1,6 +1,6 @@
 import { computed, type MaybeRefOrGetter, toValue } from 'vue'
 
-import { errorsFor, type FieldKey, type ValidationError } from '@/domain/validation'
+import { errorsFor, type FieldKey, type ValidationError } from '@/lib/validation'
 
 // Identifiants des champs, pour les liens du résumé d'erreurs.
 export const ANCHORS: Record<FieldKey, string> = {

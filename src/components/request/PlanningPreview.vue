@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { formatDayMonth } from '@/domain/dateFormat'
-import { PLANNING_MAX_WEEKS, planningFor, type PlanningKind } from '@/domain/planningWeeks'
-import type { DayPeriod, RequestDraft, TeleworkRequest } from '@/domain/types'
+import { formatDayMonth } from '@/lib/dateFormat'
+import { PLANNING_MAX_WEEKS, planningFor, type PlanningKind } from '@/lib/planningWeeks'
+import type { DayPeriod, RequestDraft, TeleworkRequest } from '@/lib/types'
 
 const props = defineProps<{
   draft: RequestDraft

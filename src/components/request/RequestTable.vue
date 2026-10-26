@@ -3,10 +3,10 @@ import { RouterLink } from 'vue-router'
 
 import StatusBadge from '@/components/ui/StatusBadge.vue'
 import { useMediaQuery } from '@/composables/useMediaQuery'
-import { formatDate } from '@/domain/dateFormat'
-import { describeQuantity, describeSchedule } from '@/domain/format'
-import { REASONS, REQUEST_TYPES } from '@/domain/rules'
-import type { TeleworkRequest } from '@/domain/types'
+import { formatDate } from '@/lib/dateFormat'
+import { describeQuantity, describeSchedule } from '@/lib/format'
+import { REASONS, REQUEST_TYPES } from '@/lib/rules'
+import type { TeleworkRequest } from '@/lib/types'
 
 defineProps<{ requests: readonly TeleworkRequest[]; caption: string }>()
 

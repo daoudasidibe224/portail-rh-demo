@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
-import { emptyDraft, type RequestDraft, type RequestType } from '@/domain/types'
+import { emptyDraft, type RequestDraft, type RequestType } from '@/lib/types'
 import { createJsonStore, STORAGE_PREFIX } from '@/services/storage'
 
 interface SavedDraft {

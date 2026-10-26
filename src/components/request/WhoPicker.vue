@@ -2,8 +2,8 @@
 import { computed } from 'vue'
 
 import FieldError from '@/components/request/FieldError.vue'
-import { fullName } from '@/domain/types'
-import type { ValidationError } from '@/domain/validation'
+import { fullName } from '@/lib/types'
+import type { ValidationError } from '@/lib/validation'
 import { useDraftStore } from '@/stores/draft'
 import { usePortalStore } from '@/stores/portal'
 

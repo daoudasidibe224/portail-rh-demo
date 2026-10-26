@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 
-import { describeQuantity, formatDays, formatHours } from '@/domain/format'
-import { countDays, countWeeklyDays } from '@/domain/schedule'
+import { describeQuantity, formatDays, formatHours } from '@/lib/format'
+import { countDays, countWeeklyDays } from '@/lib/schedule'
 import { useRequestTarget } from '@/composables/useRequestTarget'
 import { useDraftStore } from '@/stores/draft'
 import { usePortalStore } from '@/stores/portal'

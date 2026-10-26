@@ -2,7 +2,7 @@
 import { Info, X } from 'lucide-vue-next'
 import { RouterLink } from 'vue-router'
 
-import { RULES } from '@/domain/rules'
+import { RULES } from '@/lib/rules'
 import { usePreferencesStore } from '@/stores/preferences'
 
 const preferences = usePreferencesStore()

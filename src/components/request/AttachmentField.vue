@@ -3,8 +3,8 @@ import { FileText, Paperclip, X } from 'lucide-vue-next'
 import { computed, nextTick, ref } from 'vue'
 
 import FieldError from '@/components/request/FieldError.vue'
-import { formatBytes } from '@/domain/format'
-import { ATTACHMENT_ACCEPT, ATTACHMENT_LABEL, RULES } from '@/domain/rules'
+import { formatBytes } from '@/lib/format'
+import { ATTACHMENT_ACCEPT, ATTACHMENT_LABEL, RULES } from '@/lib/rules'
 import { useDraftStore } from '@/stores/draft'
 import { usePortalStore } from '@/stores/portal'
 

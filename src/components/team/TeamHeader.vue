@@ -4,7 +4,7 @@ import { ref } from 'vue'
 
 import AppButton from '@/components/ui/AppButton.vue'
 import PageTitle from '@/components/ui/PageTitle.vue'
-import { plural } from '@/domain/format'
+import { plural } from '@/lib/format'
 
 defineProps<{ memberCount: number; pendingCount: number }>()
 

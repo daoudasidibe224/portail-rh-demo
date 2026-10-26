@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 
-import { fullName } from '@/domain/types'
+import { fullName } from '@/lib/types'
 import { usePortalStore } from '@/stores/portal'
 
 const portal = usePortalStore()

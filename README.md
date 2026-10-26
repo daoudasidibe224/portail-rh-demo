@@ -58,7 +58,7 @@ L'accessibilité est traitée comme une contrainte de départ : libellés liés 
 
 ```
 src/
-  domain/       règles métier pures, sans Vue ni navigateur
+  lib/          règles métier pures, sans Vue ni navigateur
                 dates, jours fériés et ouvrés, formats de date
                 solde, planning, validation (un fichier par bloc de règles)
                 création des demandes et règles de décision
@@ -72,9 +72,9 @@ src/
   router/       routes
 ```
 
-Les dépendances vont dans un seul sens : `views` et `components` utilisent `stores` et `composables`, qui s'appuient sur `domain` et `services`. Le domaine n'importe rien de Vue ni du navigateur. Les fichiers inutilisés, les exports orphelins et les dépendances en trop sont contrôlés avec `npx knip`.
+Les dépendances vont dans un seul sens : `views` et `components` utilisent `stores` et `composables`, qui s'appuient sur `lib` et `services`. `lib` n'importe rien de Vue ni du navigateur. Les fichiers inutilisés, les exports orphelins et les dépendances en trop sont contrôlés avec `npx knip`.
 
-Les règles viennent de l'ancien formulaire (délai de 14 jours pour le régulier, 8 jours occasionnels par an, journée de 7 h 24, réponse sous 15 jours ouvrés, justificatif PDF de 200 Ko, charte v5) et sont regroupées dans `src/domain/rules.ts`.
+Les règles viennent de l'ancien formulaire (délai de 14 jours pour le régulier, 8 jours occasionnels par an, journée de 7 h 24, réponse sous 15 jours ouvrés, justificatif PDF de 200 Ko, charte v5) et sont regroupées dans `src/lib/rules.ts`.
 
 ## Correspondance avec l'ancien formulaire TT-07b
 

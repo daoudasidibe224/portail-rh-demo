@@ -3,12 +3,12 @@ import { Building2, CalendarOff, House } from 'lucide-vue-next'
 import { computed } from 'vue'
 
 import StatusBadge from '@/components/ui/StatusBadge.vue'
-import { addDays, type ISODate } from '@/domain/dates'
-import { holidayName, isBusinessDay } from '@/domain/workdays'
-import { formatLong } from '@/domain/dateFormat'
-import { PERIODS } from '@/domain/rules'
-import { entryFor, nextTeleworkDay } from '@/domain/schedule'
-import type { DayPeriod, TeleworkRequest } from '@/domain/types'
+import { addDays, type ISODate } from '@/lib/dates'
+import { holidayName, isBusinessDay } from '@/lib/workdays'
+import { formatLong } from '@/lib/dateFormat'
+import { PERIODS } from '@/lib/rules'
+import { entryFor, nextTeleworkDay } from '@/lib/schedule'
+import type { DayPeriod, TeleworkRequest } from '@/lib/types'
 
 const props = defineProps<{
   requests: readonly TeleworkRequest[]

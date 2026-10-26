@@ -6,7 +6,7 @@ import TeamPendingList from '@/components/team/TeamPendingList.vue'
 import TeamRejectDialog from '@/components/team/TeamRejectDialog.vue'
 import { usePageHeading } from '@/composables/usePageHeading'
 import { useToast } from '@/composables/useToast'
-import { fullName, type TeleworkRequest } from '@/domain/types'
+import { fullName, type TeleworkRequest } from '@/lib/types'
 import { usePortalStore } from '@/stores/portal'
 
 const portal = usePortalStore()

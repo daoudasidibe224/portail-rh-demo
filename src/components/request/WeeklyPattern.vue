@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { formatDays } from '@/domain/format'
-import { WEEKDAYS } from '@/domain/rules'
-import { countWeeklyDays } from '@/domain/schedule'
-import type { DayPeriod, Weekday, WeeklySlot } from '@/domain/types'
+import { formatDays } from '@/lib/format'
+import { WEEKDAYS } from '@/lib/rules'
+import { countWeeklyDays } from '@/lib/schedule'
+import type { DayPeriod, Weekday, WeeklySlot } from '@/lib/types'
 
 import PeriodChoice from './PeriodChoice.vue'
 

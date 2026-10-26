@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Printer, RotateCcw } from 'lucide-vue-next'
 
-import { formatTime } from '@/domain/dateFormat'
+import { formatTime } from '@/lib/dateFormat'
 import { useDraftStore } from '@/stores/draft'
 
 // État du brouillon et actions associées, sous le formulaire.

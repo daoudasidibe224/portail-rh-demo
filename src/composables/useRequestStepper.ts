@@ -1,7 +1,7 @@
 import { computed, nextTick, reactive, ref } from 'vue'
 
-import { errorsForStep, firstStepWithErrors, LAST_STEP, REQUEST_STEPS } from '@/domain/steps'
-import type { ValidationError } from '@/domain/validation'
+import { errorsForStep, firstStepWithErrors, LAST_STEP, REQUEST_STEPS } from '@/lib/steps'
+import type { ValidationError } from '@/lib/validation'
 import { useDraftStore } from '@/stores/draft'
 import { usePortalStore } from '@/stores/portal'
 

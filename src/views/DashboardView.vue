@@ -8,7 +8,7 @@ import RequestTable from '@/components/request/RequestTable.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import PageTitle from '@/components/ui/PageTitle.vue'
 import { usePageHeading } from '@/composables/usePageHeading'
-import { formatLong } from '@/domain/dateFormat'
+import { formatLong } from '@/lib/dateFormat'
 import { usePortalStore } from '@/stores/portal'
 
 const portal = usePortalStore()

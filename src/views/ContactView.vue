@@ -4,7 +4,7 @@ import { Mail } from 'lucide-vue-next'
 import HrContact from '@/components/home/HrContact.vue'
 import PageTitle from '@/components/ui/PageTitle.vue'
 import { usePageHeading } from '@/composables/usePageHeading'
-import { CONTACT } from '@/domain/contact'
+import { CONTACT } from '@/lib/contact'
 
 const heading = usePageHeading()
 </script>

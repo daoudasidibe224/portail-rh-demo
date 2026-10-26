@@ -2,8 +2,8 @@
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 
-import { REQUEST_TYPE_ORDER, REQUEST_TYPES } from '@/domain/rules'
-import type { RequestType } from '@/domain/types'
+import { REQUEST_TYPE_ORDER, REQUEST_TYPES } from '@/lib/rules'
+import type { RequestType } from '@/lib/types'
 
 defineProps<{ invalid?: boolean; describedBy?: string }>()
 

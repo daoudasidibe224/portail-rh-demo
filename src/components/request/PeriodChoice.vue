@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { PERIODS } from '@/domain/rules'
-import type { DayPeriod } from '@/domain/types'
+import { PERIODS } from '@/lib/rules'
+import type { DayPeriod } from '@/lib/types'
 
 withDefaults(
   defineProps<{

@@ -4,9 +4,9 @@ import { useRoute } from 'vue-router'
 import { usePageHeading } from '@/composables/usePageHeading'
 import { usePageParent } from '@/composables/usePageTitle'
 import { useToast } from '@/composables/useToast'
-import { addBusinessDays } from '@/domain/workdays'
-import { RULES } from '@/domain/rules'
-import { fullName } from '@/domain/types'
+import { addBusinessDays } from '@/lib/workdays'
+import { RULES } from '@/lib/rules'
+import { fullName } from '@/lib/types'
 import { usePortalStore } from '@/stores/portal'
 
 // Demande affichée, droits de lecture et actions de traitement de la page de détail.

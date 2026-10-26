@@ -2,7 +2,7 @@
 import { CircleAlert } from 'lucide-vue-next'
 import { nextTick, ref, watch } from 'vue'
 
-import type { FieldKey, ValidationError } from '@/domain/validation'
+import type { FieldKey, ValidationError } from '@/lib/validation'
 
 const props = defineProps<{
   errors: readonly ValidationError[]

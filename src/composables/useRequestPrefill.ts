@@ -2,9 +2,9 @@ import { onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 import { useRequestTarget } from '@/composables/useRequestTarget'
-import { isISODate } from '@/domain/dates'
-import { SUBMITTABLE_TYPES } from '@/domain/rules'
-import { emptyOnBehalf, type OnBehalf, type RequestType } from '@/domain/types'
+import { isISODate } from '@/lib/dates'
+import { SUBMITTABLE_TYPES } from '@/lib/rules'
+import { emptyOnBehalf, type OnBehalf, type RequestType } from '@/lib/types'
 import { useDraftStore } from '@/stores/draft'
 import { usePortalStore } from '@/stores/portal'
 

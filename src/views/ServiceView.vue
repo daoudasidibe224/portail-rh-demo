@@ -7,7 +7,7 @@ import AppButton from '@/components/ui/AppButton.vue'
 import PageTitle from '@/components/ui/PageTitle.vue'
 import { usePageHeading } from '@/composables/usePageHeading'
 import { usePageTitle } from '@/composables/usePageTitle'
-import { serviceBySlug } from '@/domain/services'
+import { serviceBySlug } from '@/lib/services'
 
 const props = defineProps<{ service: string }>()
 const heading = usePageHeading()

@@ -2,13 +2,13 @@
 import { X } from 'lucide-vue-next'
 import { computed } from 'vue'
 
-import type { ISODate } from '@/domain/dates'
-import { formatLong } from '@/domain/dateFormat'
-import { formatDays } from '@/domain/format'
-import { countDays } from '@/domain/schedule'
-import type { DayPeriod, RequestedDay } from '@/domain/types'
+import type { ISODate } from '@/lib/dates'
+import { formatLong } from '@/lib/dateFormat'
+import { formatDays } from '@/lib/format'
+import { countDays } from '@/lib/schedule'
+import type { DayPeriod, RequestedDay } from '@/lib/types'
 
-import { DEFAULT_PERIOD } from '@/domain/rules'
+import { DEFAULT_PERIOD } from '@/lib/rules'
 import PeriodChoice from './PeriodChoice.vue'
 
 // Jours choisis dans le calendrier, avec la durée de chacun (journée, matin, après-midi).

@@ -9,9 +9,9 @@ import {
   formatBytes,
   formatDays,
   formatHours,
-} from '@/domain/format'
-import { REASONS, REQUEST_TYPES } from '@/domain/rules'
-import { fullName } from '@/domain/types'
+} from '@/lib/format'
+import { REASONS, REQUEST_TYPES } from '@/lib/rules'
+import { fullName } from '@/lib/types'
 import { useDraftStore } from '@/stores/draft'
 import { usePortalStore } from '@/stores/portal'
 

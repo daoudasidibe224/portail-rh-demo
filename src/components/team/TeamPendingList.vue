@@ -3,8 +3,8 @@ import { RouterLink } from 'vue-router'
 
 import AppButton from '@/components/ui/AppButton.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
-import { describeQuantity, describeSchedule, describeType } from '@/domain/format'
-import type { TeleworkRequest } from '@/domain/types'
+import { describeQuantity, describeSchedule, describeType } from '@/lib/format'
+import type { TeleworkRequest } from '@/lib/types'
 
 defineProps<{
   requests: readonly TeleworkRequest[]

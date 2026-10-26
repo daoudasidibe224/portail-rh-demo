@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import PageTitle from '@/components/ui/PageTitle.vue'
 import { usePageHeading } from '@/composables/usePageHeading'
-import { CONTACT } from '@/domain/contact'
+import { CONTACT } from '@/lib/contact'
 
 const heading = usePageHeading()
 </script>

@@ -11,7 +11,7 @@ import {
 
 import CharterContent from '@/components/request/CharterContent.vue'
 import AppButton from '@/components/ui/AppButton.vue'
-import { RULES } from '@/domain/rules'
+import { RULES } from '@/lib/rules'
 
 const open = defineModel<boolean>('open', { required: true })
 </script>

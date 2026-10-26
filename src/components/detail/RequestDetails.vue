@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { FileText } from 'lucide-vue-next'
 
-import { describeQuantity, describeSchedule, formatBytes } from '@/domain/format'
-import { REASONS, REQUEST_TYPES } from '@/domain/rules'
-import type { TeleworkRequest } from '@/domain/types'
+import { describeQuantity, describeSchedule, formatBytes } from '@/lib/format'
+import { REASONS, REQUEST_TYPES } from '@/lib/rules'
+import type { TeleworkRequest } from '@/lib/types'
 
 defineProps<{ request: TeleworkRequest }>()
 </script>

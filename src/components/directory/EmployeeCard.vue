@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Mail } from 'lucide-vue-next'
 
-import { directoryEmail } from '@/domain/directory'
-import { fullName, initials, type Employee } from '@/domain/types'
+import { directoryEmail } from '@/lib/directory'
+import { fullName, initials, type Employee } from '@/lib/types'
 
 defineProps<{ employee: Employee; manager?: Employee }>()
 </script>

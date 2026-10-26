@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 
-import { servicePath, servicesByGroup } from '@/domain/services'
+import { servicePath, servicesByGroup } from '@/lib/services'
 
 // Libellés seuls : la description est sur la page du service.
 const groups = servicesByGroup()

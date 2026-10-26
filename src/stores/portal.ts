@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
-import { todayISO, yearOf } from '@/domain/dates'
-import { employeeFromDraft, historyEvent, requestFromDraft } from '@/domain/requestFactory'
-import { RULES } from '@/domain/rules'
-import { occasionalBalance } from '@/domain/schedule'
-import { createSeed, isPortalState, type PortalState } from '@/domain/seed'
-import type { Employee, HistoryEvent, RequestDraft, TeleworkRequest } from '@/domain/types'
-import { validateDraft, type ValidationContext, type ValidationError } from '@/domain/validation'
-import { assertCanTransition } from '@/domain/workflow'
+import { todayISO, yearOf } from '@/lib/dates'
+import { employeeFromDraft, historyEvent, requestFromDraft } from '@/lib/requestFactory'
+import { RULES } from '@/lib/rules'
+import { occasionalBalance } from '@/lib/schedule'
+import { createSeed, isPortalState, type PortalState } from '@/lib/seed'
+import type { Employee, HistoryEvent, RequestDraft, TeleworkRequest } from '@/lib/types'
+import { validateDraft, type ValidationContext, type ValidationError } from '@/lib/validation'
+import { assertCanTransition } from '@/lib/workflow'
 import { createJsonStore, STORAGE_PREFIX } from '@/services/storage'
 
 const portalStorage = createJsonStore<PortalState>(`${STORAGE_PREFIX}:state:v1`, isPortalState)

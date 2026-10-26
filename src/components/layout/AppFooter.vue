@@ -4,7 +4,7 @@ import { RouterLink, useRouter } from 'vue-router'
 
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue'
 import { useToast } from '@/composables/useToast'
-import { CONTACT } from '@/domain/contact'
+import { CONTACT } from '@/lib/contact'
 import pkg from '../../../package.json'
 import { useDraftStore } from '@/stores/draft'
 import { usePortalStore } from '@/stores/portal'

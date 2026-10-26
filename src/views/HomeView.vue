@@ -9,9 +9,9 @@ import NewsListItem from '@/components/news/NewsListItem.vue'
 import QuickRequestActions from '@/components/request/QuickRequestActions.vue'
 import PageTitle from '@/components/ui/PageTitle.vue'
 import { usePageHeading } from '@/composables/usePageHeading'
-import { formatLong } from '@/domain/dateFormat'
-import { plural } from '@/domain/format'
-import { latestNews } from '@/domain/news'
+import { formatLong } from '@/lib/dateFormat'
+import { plural } from '@/lib/format'
+import { latestNews } from '@/lib/news'
 import { usePortalStore } from '@/stores/portal'
 
 const portal = usePortalStore()
